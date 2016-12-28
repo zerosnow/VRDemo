@@ -1,0 +1,18 @@
+{
+    "gvr": {
+        "versions": {
+            "mini_cocospackage_version": "0.8.0", 
+            "code": "1000", 
+            "show_version": "2.0.0_1.0.0", 
+            "update_content": "2016\u5e7407\u670812\u65e5\u66f4\u65b0\u5185\u5bb9:\n1\u3001\u65b0\u589eGoogleVR"
+        }
+    }, 
+    "vrsdkbase": {
+        "versions": {
+            "mini_cocospackage_version": "0.8.0", 
+            "code": "1000", 
+            "show_version": "2.0.0_1.0.0", 
+            "update_content": "2016\u5e7407\u670812\u65e5\u66f4\u65b0\u5185\u5bb9:\n1\u3001\u65b0\u589evrsdkbase"
+        }
+    }
+}
