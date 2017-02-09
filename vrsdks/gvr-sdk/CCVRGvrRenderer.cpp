@@ -114,17 +114,20 @@ NS_CC_BEGIN
 VRGvrRenderer::VRGvrRenderer()
 {
     _headTracker = new VRGvrHeadTracker;
+    _controller = new VRGvrController;
 }
 
 VRGvrRenderer::~VRGvrRenderer()
 {
     CC_SAFE_DELETE(_headTracker);
-}
+    CC_SAFE_DELETE(_controller);
+};
 
 void VRGvrRenderer::setup(GLView* glview)
 {
     _gvrApi = gvr::GvrApi::WrapNonOwned(reinterpret_cast<gvr_context *>(g_gvrContext));
     _headTracker->setGvrApi(_gvrApi.get());
+    _controller->initController(reinterpret_cast<gvr_context *>(g_gvrContext));
     
     auto backToForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND,
                                                                 [=](EventCustom*)
@@ -133,6 +136,7 @@ void VRGvrRenderer::setup(GLView* glview)
                                                                         _gvrApi->RefreshViewerProfile();
                                                                         _gvrApi->ResumeTracking();
                                                                     }
+                                                                    _controller->Resume();
                                                                 }
                                                                 );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(backToForegroundListener, -1);
@@ -144,6 +148,7 @@ void VRGvrRenderer::setup(GLView* glview)
                                                                     if (_gvrApi.get()) {
                                                                         _gvrApi->PauseTracking();
                                                                     }
+                                                                    _controller ->Pause();
                                                                 }
                                                                 );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(foregroundToBackListener, -1);
@@ -158,6 +163,12 @@ VRIHeadTracker* VRGvrRenderer::getHeadTracker()
 {
     return _headTracker;
 }
+
+VRGvrController* VRGvrRenderer::getController()
+{
+    return _controller;
+}
+
 
 void VRGvrRenderer::render(Scene* scene, Renderer* renderer)
 {

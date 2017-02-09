@@ -12,6 +12,7 @@
         "local_src_files":[
             "gvr-sdk/CCVRGvrRenderer.cpp",
             "gvr-sdk/CCVRGvrHeadTracker.cpp"
+            "gvr-sdk/CCVRGvrController.cpp"
         ],
         "shared_libs":[
             "gvr"

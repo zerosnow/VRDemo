@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 #include "LyricLayer.h"
+#include "controller/DayDreamController.h"
 
 using namespace cocos2d;
 
@@ -17,5 +18,6 @@ private:
 	LyricLayer *lyricLayer;
 	Sprite3D *sprite;
     JniMethodInfo methodInfo;
+    DayDreamController *dayDreamController;
 };
 

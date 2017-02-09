@@ -71,7 +71,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);D:\Android\sdk\ndk-bundle\platforms\android-24\arch-x86_64\usr\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(EngineRoot)external;F:\VRDemo\vrsdks\gvr-sdk\gvr\include;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);D:\Android\sdk\ndk-bundle\platforms\android-24\arch-x86_64\usr\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -151,9 +151,13 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\audio\AudioPlayer.cpp" />
     <ClCompile Include="..\Classes\audio\AudioRecord.cpp" />
     <ClCompile Include="..\Classes\audio\BufferQueue.cpp" />
+    <ClCompile Include="..\Classes\controller\BaseController.cpp" />
+    <ClCompile Include="..\Classes\controller\DayDreamController.cpp" />
     <ClCompile Include="..\Classes\LyricLayer.cpp" />
     <ClCompile Include="..\Classes\opensl_io.cpp" />
+    <ClCompile Include="..\Classes\utils\LyricUtil.cpp" />
     <ClCompile Include="..\Classes\VRScene.cpp" />
+    <ClCompile Include="BaseController.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,11 +168,15 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\audio\AudioRecord.h" />
     <ClInclude Include="..\Classes\audio\BufferQueue.h" />
     <ClInclude Include="..\Classes\audio\thread.h" />
+    <ClInclude Include="..\Classes\controller\BaseController.h" />
+    <ClInclude Include="..\Classes\controller\DayDreamController.h" />
     <ClInclude Include="..\Classes\logutil.h" />
     <ClInclude Include="..\Classes\LyricLayer.h" />
     <ClInclude Include="..\Classes\opensl_io.h" />
+    <ClInclude Include="..\Classes\utils\LyricUtil.h" />
     <ClInclude Include="..\Classes\VRScene.h" />
     <ClInclude Include="..\Classes\wav.h" />
+    <ClInclude Include="BaseController.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

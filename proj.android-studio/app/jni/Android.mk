@@ -14,7 +14,10 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    $(wildcard ../../../Classes/*.cpp) \
-                   $(wildcard ../../../Classes/audio/*.cpp)
+                   $(wildcard ../../../Classes/audio/*.cpp) \
+                   $(wildcard ../../../Classes/controller/*.cpp)
+
+
 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
@@ -24,7 +27,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../vrsdks
 # _COCOS_HEADER_ANDROID_END
 
 # _COCOS_VR_HEADER_ANDROID_BEGIN
-LOCAL_SRC_FILES += ../../../vrsdks/gvr-sdk/CCVRGvrRenderer.cpp ../../../vrsdks/gvr-sdk/CCVRGvrHeadTracker.cpp
+LOCAL_SRC_FILES += ../../../vrsdks/gvr-sdk/CCVRGvrRenderer.cpp ../../../vrsdks/gvr-sdk/CCVRGvrHeadTracker.cpp ../../../vrsdks/gvr-sdk/CCVRGvrController.cpp
 # _COCOS_VR_HEADER_ANDROID_END
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static

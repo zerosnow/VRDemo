@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "audio/AudioHelper.h"
-
-
+#include "gvr-sdk/CCVRGvrRenderer.h"
 
 bool VRScene::init()
 {
@@ -17,6 +16,7 @@ bool VRScene::init()
 
 	auto glview = Director::getInstance()->getOpenGLView();
     auto vrimpl = glview->getVR();
+    dayDreamController = new DayDreamController(dynamic_cast<VRGvrRenderer *>(vrimpl)->getController());
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -80,6 +80,7 @@ float currentTime = 0;
 
 void VRScene::update(float delta) 
 {
+	dayDreamController->onUpdate();
 	currentTime += delta;
 	if (currentTime >= 2 && currentTime-delta < 2)
 	{

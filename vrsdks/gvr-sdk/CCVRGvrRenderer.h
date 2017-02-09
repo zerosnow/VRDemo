@@ -26,6 +26,7 @@
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
 #include "gvr/include/gvr.h"
+#include "CCVRGvrController.h"
 
 NS_CC_BEGIN
 
@@ -43,6 +44,7 @@ public:
     virtual void cleanup();
     virtual void render(Scene* scene, Renderer* renderer);
     virtual VRIHeadTracker* getHeadTracker();
+    virtual VRGvrController* getController();
 
 protected:
     
@@ -51,6 +53,7 @@ protected:
     std::unique_ptr<gvr::OffscreenFramebufferHandle> _framebufferHandle;
     gvr::Sizei _renderSize;
     VRGvrHeadTracker *_headTracker;
+    VRGvrController *_controller;
     Mat4                   _eyeProjections[GVR_NUM_EYES];
 };
 

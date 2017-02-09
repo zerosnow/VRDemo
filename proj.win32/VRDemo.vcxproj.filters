@@ -13,6 +13,12 @@
     <Filter Include="src\audio">
       <UniqueIdentifier>{0ee48c3e-71cc-4df7-b0bb-34fd836d0672}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{5f7709df-088c-47d4-9282-abc9293a34ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\controller">
+      <UniqueIdentifier>{f0f68749-86b1-4a7f-a0e2-cb274b8c2423}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,6 +53,16 @@
     </ClCompile>
     <ClCompile Include="..\Classes\audio\AudioHelper.cpp">
       <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\utils\LyricUtil.cpp">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseController.cpp" />
+    <ClCompile Include="..\Classes\controller\BaseController.cpp">
+      <Filter>src\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\controller\DayDreamController.cpp">
+      <Filter>src\controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +104,16 @@
     </ClInclude>
     <ClInclude Include="..\Classes\wav.h">
       <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\utils\LyricUtil.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseController.h" />
+    <ClInclude Include="..\Classes\controller\BaseController.h">
+      <Filter>src\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\controller\DayDreamController.h">
+      <Filter>src\controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
