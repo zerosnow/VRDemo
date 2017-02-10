@@ -23,7 +23,8 @@ void VRScene::onAppButton()
 
 void VRScene::updateOrientation(gvr_quatf orientation)
 {
-
+	Quaternion quat(orientation.qx, orientation.qy, orientation.qz, orientation.qw);
+	sprite->setRotationQuat(quat);
 }
 
 bool VRScene::init()

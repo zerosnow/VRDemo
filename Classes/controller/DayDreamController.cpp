@@ -6,9 +6,7 @@ DayDreamController::DayDreamController(VRGvrController *controller, ControllerIn
 	mControllerInterface = controllerInterface;
 	if (mControllerInterface == nullptr) {
 		LOGD("11111");
-	} else {
-		mControllerInterface->onLeftDown();
-	}
+	} 
 }
 
 DayDreamController::~DayDreamController()
@@ -21,7 +19,7 @@ void DayDreamController::onUpdate()
 	if (state.api_status == GVR_CONTROLLER_API_OK 
 		&& state.connection_state == GVR_CONTROLLER_CONNECTED)
 	{
-		// mControllerInterface.updateOrientation(state.orientation);
+		mControllerInterface->updateOrientation(state.orientation);
 		// LOGD("orientation: %f %f %f %f", state.orientation.qx, state.orientation.qy, state.orientation.qz, state.orientation.qw);
 		if (state.is_touching)
 		{
