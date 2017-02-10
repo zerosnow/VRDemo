@@ -1,5 +1,6 @@
 #include "BufferQueue.h"
 #include "../logutil.h"
+#include <stdlib.h>
 #include "thread.h"
 
 BufferQueue::BufferQueue()

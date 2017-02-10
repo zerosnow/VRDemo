@@ -31,9 +31,13 @@ void DayDreamController::onUpdate()
 				mControllerInterface->onLeftDown();
 			}
 		}
+		if (state.touch_up)
+		{
+			mControllerInterface->onTouchUp();
+		}
 		if (state.button_up[GVR_CONTROLLER_BUTTON_APP])
 		{
-			mControllerInterface->onAppButton();
+			mControllerInterface->onAppButtonUp();
 		}
 	} else {
 		// LOGD("gvr_controller_api_status: %d", state.api_status);

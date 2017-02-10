@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include "cocos2d.h"
 #include "wav.h"
+#include "thread.h"
 
 using namespace cocos2d;
 
@@ -39,7 +40,7 @@ void AudioHelper::startPlay(string fileName)
 		LOGD("begin play");
 	}
 	
-	this->fileName = fileName;
+	this->playFileName = fileName;
 	pthread_t thread = 0;
 	int iret = pthread_create(&thread, NULL, threadStartPlay, audioHelper);
 	if (iret)
@@ -68,7 +69,7 @@ void AudioHelper::startRecord(string fileName)
 {
 	LOGD("begin record");
 
-	this->fileName = fileName;
+	this->recordFileName = fileName;
 	pthread_t thread = 0;
 	int iret = pthread_create(&thread, NULL, threadStartRecord, audioHelper);
 	if (iret)
@@ -87,24 +88,88 @@ void AudioHelper::stopPlay()
 	isPlaying = false;
 }
 
+void AudioHelper::playForward()
+{
+	fseek(playFilePointer, offsetForOne, 1);
+}
+
+void AudioHelper::playBack()
+{
+	fseek(playFilePointer, -offsetForOne, 1);
+}
+
+void AudioHelper::playPause()
+{
+	playState = AudioHelper::STATE_PAUSE;
+}
+
+void AudioHelper::playResume()
+{
+	if (playState == AudioHelper::STATE_PAUSE)
+	{
+		playState = AudioHelper::STATE_RUN;
+		notifyThreadLock(playThreadLock);
+	}
+}
+
+void AudioHelper::recordBack()
+{
+	fseek(recordFilePointer, -offsetForOne, 1);
+}
+
+void AudioHelper::recordPause()
+{
+	recordState = AudioHelper::STATE_PAUSE;
+}
+
+void AudioHelper::recordResume()
+{
+	if (recordState == AudioHelper::STATE_PAUSE)
+	{
+		recordState = AudioHelper::STATE_RUN;
+		notifyThreadLock(recordThreadLock);
+	}
+}
+
+void AudioHelper::changePlayState()
+{
+	if (playState == AudioHelper::STATE_PAUSE)
+	{
+		playState = AudioHelper::STATE_RUN;
+		notifyThreadLock(playThreadLock);
+	} else if (playState == AudioHelper::STATE_RUN){
+		playState = AudioHelper::STATE_PAUSE;
+	}
+}
+
+void AudioHelper::changeRecordState()
+{
+	if (recordState == AudioHelper::STATE_PAUSE)
+	{
+		recordState = AudioHelper::STATE_RUN;
+		notifyThreadLock(recordThreadLock);
+	} else if (recordState == AudioHelper::STATE_RUN){
+		recordState = AudioHelper::STATE_PAUSE;
+	}
+}
+
+
 
 static void *threadStartPlay(void *param)
 {
 	AudioHelper *audioHelper = (AudioHelper *)param;
-	FILE *fp = fopen(audioHelper->fileName.c_str(), "rb");
-	if (fp == NULL) {
-		LOGD("cannot open file (%s) !\n", audioHelper->fileName.c_str());
+	audioHelper->playFilePointer = fopen(audioHelper->playFileName.c_str(), "rb");
+	if (audioHelper->playFilePointer == NULL) {
+		LOGD("cannot open file (%s) !\n", audioHelper->playFileName.c_str());
 		return nullptr;
 	}
 
-	
-	
 	audioHelper->audioPlayer = new AudioPlayer();
 
 	struct wavFileHeader header;
-	if (audioHelper->fileName.find(".wav") != string::npos)
+	if (audioHelper->playFileName.find(".wav") != string::npos)
 	{
-		if (fread((void *)(&header), sizeof(struct wavFileHeader), 1, fp) != 1) {
+		if (fread((void *)(&header), sizeof(struct wavFileHeader), 1, audioHelper->playFilePointer) != 1) {
 			LOGD("failed to read header data \n ");
 			return nullptr;
 		}
@@ -122,8 +187,14 @@ static void *threadStartPlay(void *param)
 	int samples;
 	short *buffer = new short[audioHelper->audioPlayer->getBufferFrame()];
 	audioHelper->isPlaying = true;
-	while (audioHelper->isPlaying && !feof(fp)) {
-		if (fread((unsigned char *)buffer, audioHelper->audioPlayer->getBufferFrame() * sizeof(short), 1, fp) != 1) {
+	audioHelper->playState = AudioHelper::STATE_RUN;
+	audioHelper->playThreadLock = createThreadLock();
+	while (audioHelper->isPlaying && !feof(audioHelper->playFilePointer)) {
+		if (audioHelper->playState == AudioHelper::STATE_PAUSE)
+		{
+			waitThreadLock(audioHelper->playThreadLock);
+		}
+		if (fread((unsigned char *)buffer, audioHelper->audioPlayer->getBufferFrame() * sizeof(short), 1, audioHelper->playFilePointer) != 1) {
 			LOGD("failed to read data \n ");
 			break;
 		}
@@ -133,8 +204,9 @@ static void *threadStartPlay(void *param)
 		}
 	}
 
+	destroyThreadLock(audioHelper->playThreadLock);
 	audioHelper->audioPlayer->closeAudioDevice();
-	fclose(fp);
+	fclose(audioHelper->playFilePointer);
 	delete audioHelper->audioPlayer;
 
 	LOGD("nativeStartPlayback completed !");
@@ -145,9 +217,9 @@ static void *threadStartPlay(void *param)
 static void *threadStartRecord(void *param)
 {
 	AudioHelper *audioHelper = (AudioHelper *)param;
-	FILE * fp = fopen(audioHelper->fileName.c_str(), "wb");
-	if (fp == NULL) {
-		LOGD("cannot open file (%s)\n", audioHelper->fileName.c_str());
+	audioHelper->recordFilePointer = fopen(audioHelper->recordFileName.c_str(), "wb");
+	if (audioHelper->recordFilePointer == NULL) {
+		LOGD("cannot open file (%s)\n", audioHelper->recordFileName.c_str());
 		return nullptr;
 	}
 
@@ -157,23 +229,32 @@ static void *threadStartRecord(void *param)
 	int samples;
 	short *buffer = new short[audioHelper->audioRecord->getBufferFrame()];
 	audioHelper->isRecording = true;
+	audioHelper->recordState = AudioHelper::STATE_RUN;
+	audioHelper->recordThreadLock = createThreadLock();
 	while (audioHelper->isRecording) {
+		if (audioHelper->recordState == AudioHelper::STATE_PAUSE)
+		{
+			waitThreadLock(audioHelper->recordThreadLock);
+		}
 		samples = audioHelper->audioRecord->AudioIn(buffer, audioHelper->audioRecord->getBufferFrame());
 		if (samples < 0) {
 			LOGD("android_AudioIn failed !\n");
 			break;
 		}
-		if (fwrite((unsigned char *)buffer, samples * sizeof(short), 1, fp) != 1) {
+		if (fwrite((unsigned char *)buffer, samples * sizeof(short), 1, audioHelper->recordFilePointer) != 1) {
 			LOGD("failed to save captured data !\n ");
 			break;
 		}
 	}
 
+	destroyThreadLock(audioHelper->recordThreadLock);
 	audioHelper->audioRecord->closeAudioDevice();
-	fclose(fp);
+	fclose(audioHelper->recordFilePointer);
 	delete audioHelper->audioRecord;
 
 	LOGD("nativeStartCapture completed !");
 
 	return nullptr;
 }
+
+

@@ -14,8 +14,9 @@ public:
 	virtual void update(float delta);
 	virtual void onLeftDown();
 	virtual void onRightDown();
-	virtual void onAppButton();
+	virtual void onAppButtonUp();
 	virtual void updateOrientation(gvr_quatf orientation);
+	virtual void onTouchUp();
 
 	CREATE_FUNC(VRScene);
 

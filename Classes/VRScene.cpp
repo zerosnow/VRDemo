@@ -9,22 +9,33 @@
 void VRScene::onLeftDown()
 {
 	LOGD("onLeftDown");
+	AudioHelper::getInstance()->playBack();
+	AudioHelper::getInstance()->playPause();
 }
 
 void VRScene::onRightDown()
 {
 	LOGD("onRightDown");
+	AudioHelper::getInstance()->playForward();
+	AudioHelper::getInstance()->playPause();
 }
 
-void VRScene::onAppButton()
+void VRScene::onAppButtonUp()
 {
-	LOGD("onAppButton");
+	LOGD("onAppButtonUp");
+	AudioHelper::getInstance()->changePlayState();
 }
 
 void VRScene::updateOrientation(gvr_quatf orientation)
 {
 	Quaternion quat(orientation.qx, orientation.qy, orientation.qz, orientation.qw);
 	sprite->setRotationQuat(quat);
+}
+
+void VRScene::onTouchUp()
+{
+	LOGD("onTouchUp");
+	AudioHelper::getInstance()->playResume();
 }
 
 bool VRScene::init()
@@ -105,15 +116,15 @@ void VRScene::update(float delta)
 	if (currentTime >= 2 && currentTime-delta < 2)
 	{
 		AudioHelper::getInstance()->startPlayAssert("song.wav");
-		AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
+		// AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
 
 	}
-	if (currentTime >= 30 && currentTime - delta < 30)
-	{
-		AudioHelper::getInstance()->stopPlay();
-		AudioHelper::getInstance()->stopRecord();
-		AudioHelper::getInstance()->startPlay(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
-	}
+	// if (currentTime >= 30 && currentTime - delta < 30)
+	// {
+	// 	AudioHelper::getInstance()->stopPlay();
+	// 	AudioHelper::getInstance()->stopRecord();
+	// 	AudioHelper::getInstance()->startPlay(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
+	// }
 	
 	
 //	LOGD("getTime : %lf", getTime());
