@@ -4,11 +4,12 @@
 #include "gvr_controller.h"
 #include "gvr-sdk/CCVRGvrController.h"
 #include "../logutil.h"
+#include "ControllerInterface.h"
 
 class DayDreamController : public BaseController
 {
 public:
-	DayDreamController(VRGvrController *controller);
+	DayDreamController(VRGvrController *controller, ControllerInterface *controllerInterface);
 	~DayDreamController();
 
 	void onUpdate();

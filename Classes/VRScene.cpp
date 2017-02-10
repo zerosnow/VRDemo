@@ -6,6 +6,26 @@
 #include "audio/AudioHelper.h"
 #include "gvr-sdk/CCVRGvrRenderer.h"
 
+void VRScene::onLeftDown()
+{
+	LOGD("onLeftDown");
+}
+
+void VRScene::onRightDown()
+{
+	LOGD("onRightDown");
+}
+
+void VRScene::onAppButton()
+{
+	LOGD("onAppButton");
+}
+
+void VRScene::updateOrientation(gvr_quatf orientation)
+{
+
+}
+
 bool VRScene::init()
 {
 	if (!Scene::init())
@@ -13,10 +33,9 @@ bool VRScene::init()
 		return false;
 	}
 
-
 	auto glview = Director::getInstance()->getOpenGLView();
     auto vrimpl = glview->getVR();
-    dayDreamController = new DayDreamController(dynamic_cast<VRGvrRenderer *>(vrimpl)->getController());
+    dayDreamController = new DayDreamController(dynamic_cast<VRGvrRenderer *>(vrimpl)->getController(), this);
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
