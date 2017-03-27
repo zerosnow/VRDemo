@@ -15,9 +15,8 @@ LOCAL_MODULE_FILENAME := libMyGame
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    $(wildcard ../../../Classes/*.cpp) \
                    $(wildcard ../../../Classes/audio/*.cpp) \
-                   $(wildcard ../../../Classes/controller/*.cpp)
-
-
+                   $(wildcard ../../../Classes/controller/*.cpp) \
+                   $(wildcard ../../../Classes/utils/*.cpp)
 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes

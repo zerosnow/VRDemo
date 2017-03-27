@@ -91,11 +91,13 @@ void AudioHelper::stopPlay()
 void AudioHelper::playForward()
 {
 	fseek(playFilePointer, offsetForOne, 1);
+	audioPlayer->addTimeSize((int)offsetForOne / sizeof(short));
 }
 
 void AudioHelper::playBack()
 {
 	fseek(playFilePointer, -offsetForOne, 1);
+	audioPlayer->addTimeSize(-(int)offsetForOne / sizeof(short));
 }
 
 void AudioHelper::playPause()
@@ -115,6 +117,7 @@ void AudioHelper::playResume()
 void AudioHelper::recordBack()
 {
 	fseek(recordFilePointer, -offsetForOne, 1);
+	audioRecord->addTimeSize(-(int)offsetForOne / sizeof(short));
 }
 
 void AudioHelper::recordPause()
@@ -153,7 +156,15 @@ void AudioHelper::changeRecordState()
 	}
 }
 
+double AudioHelper::getPlayTime()
+{
+	return audioPlayer->getTime();
+}
 
+double AudioHelper::getRecordTime()
+{
+	return audioRecord->getTime();
+}
 
 static void *threadStartPlay(void *param)
 {

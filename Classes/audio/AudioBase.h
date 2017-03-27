@@ -15,6 +15,7 @@ public:
 	virtual bool openAudioDevice(int sampleRate, int channels, int bufferFrames);
 	virtual void closeAudioDevice();
 	double getTime() {return time;}
+	void addTimeSize(int size);
 protected:
 	const SLuint32 DEFAULT_SAMPLERATE = SL_SAMPLINGRATE_44_1;
 	const SLuint32 DEFAULT_CHANNELS = 2;

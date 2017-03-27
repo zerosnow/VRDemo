@@ -7,7 +7,7 @@
 using namespace std;
 
 struct LyricContent {
-	long time;
+	int time;
 	string lyric;
 };
 
@@ -19,9 +19,10 @@ public:
 
 	bool loadFile(string fileName);
 	bool loadFileFromAsset(string fileName);
-	int getCurrentPosition(long currTime);
-
+	int getCurrentPosition(int currTime, int preI);
+	string getLyricString(int position);
 private:
+	void insertToList(string *tempTemp, int p, string str);
 	vector<struct LyricContent> lrcList;
 };
 

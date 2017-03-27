@@ -100,6 +100,10 @@ bool VRScene::init()
     } else {
         LOGD("getStaticMethodInfo error");
     }*/
+
+    lyricUtil = new LyricUtil;
+    lyricUtil->loadFileFromAsset("埋葬冬天.lrc");
+
 	
 
     scheduleUpdate();
@@ -113,6 +117,19 @@ void VRScene::update(float delta)
 {
 	dayDreamController->onUpdate();
 	currentTime += delta;
+
+	static int i = 0, preI = 0;
+	i = lyricUtil->getCurrentPosition((int)(AudioHelper::getInstance()->getPlayTime() * 1000000), preI);
+	if (preI != i)
+	{
+		preI = i;
+		//LOGD("%s", lyricUtil->getLyricString(i - 1).c_str());
+		LOGD("%s", lyricUtil->getLyricString(i).c_str());
+		//LOGD("%s", lyricUtil->getLyricString(i + 1).c_str());
+		//LOGD("%s", lyricUtil->getLyricString(i + 2).c_str());
+	}
+
+	
 	if (currentTime >= 2 && currentTime-delta < 2)
 	{
 		AudioHelper::getInstance()->startPlayAssert("song.wav");

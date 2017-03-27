@@ -29,6 +29,8 @@ public:
 	void recordResume();
 	void changePlayState();
 	void changeRecordState();
+	double getPlayTime();
+	double getRecordTime();
 
 	string playFileName;
 	string recordFileName;
