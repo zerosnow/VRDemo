@@ -23,7 +23,6 @@ bool LyricLayer::init() {
                                50 - i * (label[i]->getContentSize().height + 20)));
         this->addChild(label[i], 1);
     }
-    
 
     lyricUtil = new LyricUtil;
     lyricUtil->loadFileFromAsset("埋葬冬天.lrc");

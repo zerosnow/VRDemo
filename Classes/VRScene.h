@@ -1,10 +1,9 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "render/lyric/LyricLayer.h"
+#include "render/RenderHelper.h"
 #include "controller/DayDreamController.h"
 #include "controller/ControllerInterface.h"
-#include "utils/LyricUtil.h"
 
 
 using namespace cocos2d;
@@ -23,10 +22,9 @@ public:
 	CREATE_FUNC(VRScene);
 
 private:
-	LyricLayer *lyricLayer;
+	RenderHelper *renderHelper;
 	Sprite3D *sprite;
     JniMethodInfo methodInfo;
     DayDreamController *dayDreamController;
-    LyricUtil *lyricUtil;
 };
 
