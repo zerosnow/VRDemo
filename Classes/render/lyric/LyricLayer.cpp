@@ -36,8 +36,9 @@ bool LyricLayer::init() {
 void LyricLayer::update(float delta)
 {
     static int i = 0, preI = 0;
-    i = lyricUtil->getCurrentPosition((int)(AudioHelper::getInstance()->getPlayTime() * 1000000), preI);
-    if (preI != i)
+    const static int offset = 100;
+    i = lyricUtil->getCurrentPosition((int)(AudioHelper::getInstance()->getPlayTime() * 1000000 - offset), preI);
+    if (preI != i || i == 0)
     {
         preI = i;
         for (int j = 0; j < 4; ++j)
