@@ -12,6 +12,7 @@ public:
 	RenderHelper(Scene *scene);
 	~RenderHelper();
 
+	void setSkybox(enum SkyboxType type);
 	bool init();
 
 private:

@@ -4,7 +4,10 @@
 using namespace cocos2d;
 
 enum SkyboxType {
-	SNOW_MOUNTAIN, 
+	CLOUDY_LIGHT_RAYS,
+	DARK_STORMY,
+	SNOW_MOUNTAIN,
+	SUN_SET, 
 	DEFAULT
 };
 
@@ -18,7 +21,11 @@ public:
 	Skybox *getSkybox();
 	
 private:
+	TextureCube *cloudyLightRays;
+	TextureCube *darkStormy;
 	TextureCube *snowMountain;
+	TextureCube *sunSet;
+
 	Texture2D::TexParams tRepeatParams;
 	GLProgramState *state;
 	Skybox *skybox;

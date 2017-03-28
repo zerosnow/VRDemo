@@ -23,9 +23,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    $(wildcard ../../../Classes/render/sprite/*.cpp) \
                    $(wildcard ../../../Classes/render/weather/*.cpp)
 
-
-
-
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../vrsdks
 

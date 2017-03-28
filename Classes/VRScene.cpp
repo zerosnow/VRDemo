@@ -84,8 +84,22 @@ void VRScene::update(float delta)
 	{
 		AudioHelper::getInstance()->startPlayAssert("song.wav");
 		// AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
-
 	}
+
+	if (currentTime >= 5 && currentTime-delta < 5)
+	{
+		renderHelper->setSkybox(DARK_STORMY);
+	}
+	if (currentTime >= 10 && currentTime-delta < 10)
+	{
+		renderHelper->setSkybox(SNOW_MOUNTAIN);
+	}
+	if (currentTime >= 15 && currentTime-delta < 15)
+	{
+		renderHelper->setSkybox(SUN_SET);
+	}
+
+
 	// if (currentTime >= 30 && currentTime - delta < 30)
 	// {
 	// 	AudioHelper::getInstance()->stopPlay();

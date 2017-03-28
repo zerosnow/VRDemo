@@ -10,7 +10,7 @@ RenderHelper::RenderHelper(Scene *scene)
 	currentScene->getDefaultCamera()->addChild(lyricLayer);
 
 	skyboxHelper = new SkyboxHelper();
-	skyboxHelper->setSkybox(SNOW_MOUNTAIN);
+	skyboxHelper->setSkybox(CLOUDY_LIGHT_RAYS);
 	auto skybox = skyboxHelper->getSkybox();
 	currentScene->addChild(skybox);
 }
@@ -23,5 +23,10 @@ bool RenderHelper::init()
 RenderHelper::~RenderHelper()
 {
 	delete lyricLayer;
+}
+
+void RenderHelper::setSkybox(enum SkyboxType type)
+{
+	skyboxHelper->setSkybox(type);
 }
 
