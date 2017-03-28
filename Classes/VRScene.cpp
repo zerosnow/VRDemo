@@ -1,9 +1,9 @@
 #include "VRScene.h"
-#include "LyricLayer.h"
-#include "logutil.h"
 #include <stdio.h>
 #include <pthread.h>
 #include "audio/AudioHelper.h"
+#include "utils/logutil.h"
+#include "render/lyric/LyricLayer.h"
 #include "gvr-sdk/CCVRGvrRenderer.h"
 
 void VRScene::onLeftDown()

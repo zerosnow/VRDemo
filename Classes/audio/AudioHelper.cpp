@@ -1,6 +1,6 @@
 
 #include "AudioHelper.h"
-#include "../logutil.h"
+#include "utils/logutil.h"
 #include <pthread.h>
 #include "cocos2d.h"
 #include "wav.h"

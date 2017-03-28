@@ -3,7 +3,7 @@
 #include "BaseController.h"
 #include "gvr_controller.h"
 #include "gvr-sdk/CCVRGvrController.h"
-#include "../logutil.h"
+#include "utils/logutil.h"
 #include "ControllerInterface.h"
 
 class DayDreamController : public BaseController

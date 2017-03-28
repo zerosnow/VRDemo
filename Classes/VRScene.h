@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "LyricLayer.h"
+#include "render/lyric/LyricLayer.h"
 #include "controller/DayDreamController.h"
 #include "controller/ControllerInterface.h"
 #include "utils/LyricUtil.h"

@@ -1,6 +1,6 @@
 #include "LyricUtil.h"
 #include "cocos2d.h"
-#include "../logutil.h"
+#include "utils/logutil.h"
 #include <fstream>
 #include <regex>
 
@@ -105,5 +105,9 @@ int LyricUtil::getCurrentPosition(int currTime, int preI)
 
 string LyricUtil::getLyricString(int position)
 {
+	if (position < 0 || position >= lrcList.size())
+	{
+		return "";
+	}
 	return lrcList.at(position).lyric;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gvr_types.h"
-#include "../logutil.h"
+#include "utils/logutil.h"
 
 class ControllerInterface
 {

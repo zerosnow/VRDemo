@@ -16,7 +16,13 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    $(wildcard ../../../Classes/*.cpp) \
                    $(wildcard ../../../Classes/audio/*.cpp) \
                    $(wildcard ../../../Classes/controller/*.cpp) \
-                   $(wildcard ../../../Classes/utils/*.cpp)
+                   $(wildcard ../../../Classes/utils/*.cpp) \
+                   $(wildcard ../../../Classes/render/background/*.cpp) \
+                   $(wildcard ../../../Classes/render/lyric/*.cpp) \
+                   $(wildcard ../../../Classes/render/sprite/*.cpp) \
+                   $(wildcard ../../../Classes/render/weather/*.cpp)
+
+
 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
