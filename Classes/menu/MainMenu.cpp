@@ -3,7 +3,7 @@
 extern string mainMenuData[][2];
 extern string lyricMenuData[][2];
 extern string bgMenuData[][2];
-extern string weatherData[][2];
+extern string weatherMenuData[][2];
 
 MainMenu::MainMenu(Scene *scene)
 {
@@ -17,7 +17,8 @@ MainMenu::MainMenu(Scene *scene)
 		currentScene->getDefaultCamera()->addChild(item);
 		mainMenuList.push_back(item);
 	}
-	currentPosition = 1;
+	mainPosition = 1;
+	subPosition = -1;
 }
 
 MainMenu::~MainMenu()
@@ -27,40 +28,116 @@ MainMenu::~MainMenu()
 
 void MainMenu::popUp()
 {
-	updateMenu(mainMenuList, APPEAR);
+	//弹出的时候初始化位置
+	mainPosition = 1;
+	subPosition = -1;				//-1表示没有弹出子菜单
+	updateMenu(mainMenuList, APPEAR, mainPosition);
 }
 
 void MainMenu::close()
 {
-	updateMenu(mainMenuList, DISAPPEAR);
+	updateMenu(mainMenuList, DISAPPEAR, mainPosition);
 }
 
 void MainMenu::leftSlide()
 {
-	if (currentPosition == 0)
+	if (subPosition == -1)
 	{
-		return;
+		if (mainPosition == 3)
+		{
+			return;
+		}
+		mainPosition--;
+		updateMenu(mainMenuList, RIGHT_SLIDE, mainPosition);
+	} else
+	{
+		if (subPosition == 0)
+		{
+			return ;
+		}
+		subPosition--;
+		updateMenu(mainMenuList, LEFT_SLIDE, mainPosition);
 	}
-	currentPosition--;
-	updateMenu(mainMenuList, LEFT_SLIDE);
 }
 
 void MainMenu::rightSlide()
 {
-	if (currentPosition == 3)
+	if (subPosition == -1)
 	{
-		return;
+		if (mainPosition == 3)
+		{
+			return;
+		}
+		mainPosition++;
+		updateMenu(mainMenuList, RIGHT_SLIDE, mainPosition);
+	} else
+	{
+		if ((mainPosition == 0 && subPosition == 1)
+			|| (mainPosition == 1 && subPosition == 3)
+			|| (mainPosition == 2 && subPosition == 1))
+		{
+			return ;
+		}
+		subPosition++;
+		updateMenu(subMenuList, RIGHT_SLIDE, subPosition);
 	}
-	currentPosition++;
-	updateMenu(mainMenuList, RIGHT_SLIDE);
 }
 
 void MainMenu::confirm()
 {
-
+	if (subPosition == -1)
+	{
+		if (mainPosition == 0)
+		{
+		} else if (mainPosition == 1)
+		{
+		} else if (mainPosition == 2)
+		{
+		} else if (mainPosition == 3)
+		{
+			updateMenu(mainMenuList, DISAPPEAR, mainPosition);
+		}
+	} else {
+		if (mainPosition == 0)				//歌词
+		{
+			if (subPosition == 0)				//展示歌词
+			{
+				/* code */
+			} else if (subPosition == 1)		//不展示歌词
+			{
+				/* code */
+			}
+		} else if (mainPosition == 1)		//背景
+		{
+			if (subPosition == 0)				//阴天
+			{
+				/* code */
+			} else if (subPosition == 1)		//暴雨
+			{
+				/* code */
+			} else if (subPosition == 2)		//雪山
+			{
+				/* code */
+			} else if (subPosition == 3)		//阳光明媚
+			{
+				/* code */
+			}
+		}else if (mainPosition == 2)			//天气
+		{
+			if (subPosition == 0)				//雨景
+			{
+				/* code */
+			} else if (subPosition == 1)		//雪景
+			{
+				/* code */
+			}
+		}
+		updateMenu(mainMenuList, DISAPPEAR, mainPosition);
+		updateMenu(subMenuList, DISAPPEAR, subPosition);
+	}
 }
 
-void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op)
+void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int position)
 {
 	switch(op)
 	{
@@ -68,7 +145,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op)
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = Spawn::create(MoveTo::create(0.8f, Vec3(100.0*(i-currentPosition), 0, -150.0)), ScaleTo::create(0.8f, 1.0f), nullptr);
+				auto action = Spawn::create(MoveTo::create(0.8f, Vec3(100.0*(i-position), 0, -150.0)), ScaleTo::create(0.8f, 1.0f), nullptr);
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -86,7 +163,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op)
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveTo::create(0.8f, Vec3(100.0*(i-currentPosition), 0, -150.0));
+				auto action = MoveTo::create(0.8f, Vec3(100.0*(i-position), 0, -150.0));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -95,7 +172,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op)
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveTo::create(0.8f, Vec3(100.0*(i-currentPosition), 0, -150.0));
+				auto action = MoveTo::create(0.8f, Vec3(100.0*(i-position), 0, -150.0));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -104,7 +181,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op)
 		{	
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveBy::create(0.8f, Vec3(0.f, 60.f, 0.f));
+				auto action = MoveBy::create(0.8f, Vec3(0.f, 100.f, 0.f));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -113,10 +190,30 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op)
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveBy::create(0.8f, Vec3(0.f, -60.f, 0.f));
+				auto action = MoveBy::create(0.8f, Vec3(0.f, -100.f, 0.f));
 				list.at(i)->runAction(action);
 			}
 			break;
 		}
+	}
+}
+
+void MainMenu::initSubMenuData(string subMenuData[][2], int dataNum) 
+{
+	//清除原有数据
+	for (int i = 0; i < subMenuList.size(); ++i)
+	{
+		currentScene->getDefaultCamera()->removeChild(subMenuList.at(i));
+	}
+	subMenuList.clear();
+
+	for (int i = 0; i < dataNum; ++i)
+	{	
+		auto item = new VRMenuItem(subMenuData[i][0], subMenuData[i][1]);
+		//初始化
+		item->setScale(0.f);
+		item->setPosition3D(Vec3(0.f, 0.f, -150.f));
+		currentScene->getDefaultCamera()->addChild(item);
+		subMenuList.push_back(item);
 	}
 }

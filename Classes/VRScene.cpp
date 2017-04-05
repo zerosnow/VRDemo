@@ -88,17 +88,28 @@ void VRScene::update(float delta)
 		renderHelper->setWeather(WEATHER_SNOW);
 		mainMenu->popUp();
 	}
+	if (currentTime >= 5 && currentTime-delta < 5)
+	{
+		mainMenu->leftSlide();
+	}
 
 	if (currentTime >= 10 && currentTime-delta < 10)
 	{
 		renderHelper->setWeather(WEATHER_RAIN);
-		mainMenu->leftSlide();
+		mainMenu->rightSlide();
 	}
+	if (currentTime >= 15 && currentTime-delta < 15)
+	{
+		mainMenu->confirm();
+	}
+
 	if (currentTime >= 20 && currentTime-delta < 20)
 	{
 		renderHelper->setWeather(WEATHER_SNOW);
-		mainMenu->close();
+		mainMenu->rightSlide();
 	}
+
+
 
 	// if (currentTime >= 30 && currentTime - delta < 30)
 	// {

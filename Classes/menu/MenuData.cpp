@@ -20,7 +20,7 @@ string bgMenuData[][2] = {
 	"阳光明媚", "blackbackground.jpg"
 };
 
-string weatherData[][2] = {
+string weatherMenuData[][2] = {
 	"雨景", "blackbackground.jpg",
 	"雪景", "blackbackground.jpg"
 };

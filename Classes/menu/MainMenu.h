@@ -30,11 +30,13 @@ public:
 	void confirm();
 
 private:
-	void updateMenu(vector<VRMenuItem *> list, enum menuOperation op);
+	void updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int position);
+	void initSubMenuData(string subMenuData[][2], int dataNum);
 
 	vector<VRMenuItem *> mainMenuList;
 	vector<VRMenuItem *> subMenuList;
 
-	int currentPosition;
+	int mainPosition;
+	int subPosition;
 	Scene *currentScene;
 };
