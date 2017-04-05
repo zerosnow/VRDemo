@@ -48,6 +48,7 @@ bool VRScene::init()
     auto vrimpl = glview->getVR();
     dayDreamController = new DayDreamController(dynamic_cast<VRGvrRenderer *>(vrimpl)->getController(), this);
 	renderHelper = new RenderHelper(this);
+	mainMenu = new MainMenu(this);
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -85,15 +86,18 @@ void VRScene::update(float delta)
 		AudioHelper::getInstance()->startPlayAssert("song.wav");
 		// AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
 		renderHelper->setWeather(WEATHER_SNOW);
+		mainMenu->popUp();
 	}
 
 	if (currentTime >= 10 && currentTime-delta < 10)
 	{
 		renderHelper->setWeather(WEATHER_RAIN);
+		mainMenu->leftSlide();
 	}
 	if (currentTime >= 20 && currentTime-delta < 20)
 	{
 		renderHelper->setWeather(WEATHER_SNOW);
+		mainMenu->close();
 	}
 
 	// if (currentTime >= 30 && currentTime - delta < 30)

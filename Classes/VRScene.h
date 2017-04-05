@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 #include "render/RenderHelper.h"
+#include "menu/MainMenu.h"
 #include "controller/DayDreamController.h"
 #include "controller/ControllerInterface.h"
 
@@ -23,6 +24,7 @@ public:
 
 private:
 	RenderHelper *renderHelper;
+	MainMenu *mainMenu;
 	Sprite3D *sprite;
     JniMethodInfo methodInfo;
     DayDreamController *dayDreamController;

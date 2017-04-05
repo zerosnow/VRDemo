@@ -10,12 +10,13 @@ VRMenuItem::VRMenuItem(string text, string bgFile)
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     auto bg = Sprite::create(bgFile);
-    bg->setPosition(Vec2(0, 20));
+    bg->setScale(0.7);
     this->addChild(bg);
 
     auto label = Label::create();
-    label->setString(text);
+    label->setString(text); 
     this->addChild(label);
+
 }
 
 VRMenuItem::~VRMenuItem()
