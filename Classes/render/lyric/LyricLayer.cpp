@@ -10,15 +10,22 @@ bool LyricLayer::init() {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    Color4B textColor[4] = {
+        Color4B(255, 255, 255, 255),
+        Color4B(255, 0, 0, 255),
+        Color4B(255, 255, 255, 255),
+        Color4B(255, 255, 255, 255),
+    };
+
+    // auto bg = Sprite::create("blackbackground.jpg");
+    // bg->setPosition(Vec2(0, 20));
+    // this->addChild(bg);
+
     for (int i = 0; i < 4; ++i)
     {
         label[i] = Label::create();
-        if (i == 1)
-        {
-            Color4B textColor(255, 0, 0, 255);
-            label[i]->setTextColor(textColor);
-        }
-        label[i]->setScale(0.8);
+        label[i]->setTextColor(textColor[i]);
+        label[i]->setScale(0.5);
         label[i]->setPosition(Vec2(0,
                                50 - i * (label[i]->getContentSize().height + 20)));
         this->addChild(label[i], 1);

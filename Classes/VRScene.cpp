@@ -84,21 +84,17 @@ void VRScene::update(float delta)
 	{
 		AudioHelper::getInstance()->startPlayAssert("song.wav");
 		// AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
+		renderHelper->setWeather(WEATHER_SNOW);
 	}
 
-	if (currentTime >= 5 && currentTime-delta < 5)
-	{
-		renderHelper->setSkybox(DARK_STORMY);
-	}
 	if (currentTime >= 10 && currentTime-delta < 10)
 	{
-		renderHelper->setSkybox(SNOW_MOUNTAIN);
+		renderHelper->setWeather(WEATHER_RAIN);
 	}
-	if (currentTime >= 15 && currentTime-delta < 15)
+	if (currentTime >= 20 && currentTime-delta < 20)
 	{
-		renderHelper->setSkybox(SUN_SET);
+		renderHelper->setWeather(WEATHER_SNOW);
 	}
-
 
 	// if (currentTime >= 30 && currentTime - delta < 30)
 	// {

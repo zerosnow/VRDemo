@@ -10,9 +10,11 @@ RenderHelper::RenderHelper(Scene *scene)
 	currentScene->getDefaultCamera()->addChild(lyricLayer);
 
 	skyboxHelper = new SkyboxHelper();
-	skyboxHelper->setSkybox(CLOUDY_LIGHT_RAYS);
+	skyboxHelper->setSkybox(SNOW_MOUNTAIN);
 	auto skybox = skyboxHelper->getSkybox();
 	currentScene->addChild(skybox);
+
+	weatherHelper = new WeatherHelper(scene);
 }
 
 bool RenderHelper::init()
@@ -28,5 +30,10 @@ RenderHelper::~RenderHelper()
 void RenderHelper::setSkybox(enum SkyboxType type)
 {
 	skyboxHelper->setSkybox(type);
+}
+
+void RenderHelper::setWeather(enum WeatherType type)
+{
+	weatherHelper->setWeather(type);
 }
 

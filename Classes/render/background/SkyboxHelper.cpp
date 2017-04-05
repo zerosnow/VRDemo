@@ -43,6 +43,7 @@ SkyboxHelper::SkyboxHelper()
 
 	//初始化skybox
 	skybox = Skybox::create();
+	skybox->setPosition3D(Vec3(0, 100, 0));
 }
 
 SkyboxHelper::~SkyboxHelper()

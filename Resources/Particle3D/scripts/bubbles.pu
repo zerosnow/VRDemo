@@ -1,0 +1,30 @@
+system bubbles
+{
+    technique 
+    {
+        material                                PUMediaPack/Bubble
+        renderer                                Billboard
+        {
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       40
+            angle                               10
+            time_to_live                        10
+            velocity                            dyn_random
+            {
+                min                             -10
+                max                             -60
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             6
+                max                             18
+            }
+            position                            0 100 0
+            box_width                           200
+            box_height                          200
+            box_depth                           200
+        }
+    }
+}
