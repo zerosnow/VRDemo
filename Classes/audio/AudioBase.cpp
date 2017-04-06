@@ -61,4 +61,9 @@ SLuint32 AudioBase::getBufferFrame()
 void AudioBase::addTimeSize(int size)
 {
 	time += (double)size / (sampleRate*channels);
+	//0时间处理
+	if (time < 0)
+	{
+		time = 0;
+	}
 }

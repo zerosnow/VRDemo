@@ -53,5 +53,5 @@ public:
 	AudioRecorder *audioRecord;
 
 private:
-	const long offsetForOne = 25000;
+	const long offsetForOne = 40000;
 };

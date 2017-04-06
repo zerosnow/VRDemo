@@ -4,37 +4,65 @@
 #include "audio/AudioHelper.h"
 #include "utils/logutil.h"
 #include "gvr-sdk/CCVRGvrRenderer.h"
+#include "utils/Global.h"
 
 void VRScene::onLeftDown()
 {
 	LOGD("onLeftDown");
-	AudioHelper::getInstance()->playBack();
-	AudioHelper::getInstance()->playPause();
+	if (mainMenu->getMenuState() == MENU_OFF)
+	{
+		AudioHelper::getInstance()->playPause();
+		AudioHelper::getInstance()->playBack();
+	} else if(mainMenu->getMenuState() == MENU_ON)
+	{
+		mainMenu->leftSlide();
+	}
 }
 
 void VRScene::onRightDown()
 {
 	LOGD("onRightDown");
-	AudioHelper::getInstance()->playForward();
-	AudioHelper::getInstance()->playPause();
+	if (mainMenu->getMenuState() == MENU_OFF)
+	{
+		AudioHelper::getInstance()->playPause();
+		AudioHelper::getInstance()->playForward();
+	} else if(mainMenu->getMenuState() == MENU_ON)
+	{
+		mainMenu->rightSlide();
+	}
 }
 
 void VRScene::onAppButtonUp()
 {
 	LOGD("onAppButtonUp");
-	AudioHelper::getInstance()->changePlayState();
+	if (mainMenu->getMenuState() == MENU_OFF)
+	{
+		AudioHelper::getInstance()->playPause();
+		AudioHelper::getInstance()->recordPause();
+		mainMenu->popUp();
+	} else if(mainMenu->getMenuState() == MENU_ON)
+	{
+		mainMenu->confirm();
+		if (mainMenu->getMenuState() == MENU_OFF)
+		{
+			AudioHelper::getInstance()->playResume();
+		}
+	}
 }
 
 void VRScene::updateOrientation(gvr_quatf orientation)
 {
-	Quaternion quat(orientation.qx, orientation.qy, orientation.qz, orientation.qw);
-	sprite->setRotationQuat(quat);
+	// Quaternion quat(orientation.qx, orientation.qy, orientation.qz, orientation.qw);
+	// sprite->setRotationQuat(quat);
 }
 
 void VRScene::onTouchUp()
 {
 	LOGD("onTouchUp");
-	AudioHelper::getInstance()->playResume();
+	if (mainMenu->getMenuState() == MENU_OFF)
+	{
+		AudioHelper::getInstance()->playResume();
+	}
 }
 
 bool VRScene::init()
@@ -46,18 +74,20 @@ bool VRScene::init()
 
 	auto glview = Director::getInstance()->getOpenGLView();
     auto vrimpl = glview->getVR();
+    Global::setCurrentScene(this);
     dayDreamController = new DayDreamController(dynamic_cast<VRGvrRenderer *>(vrimpl)->getController(), this);
-	renderHelper = new RenderHelper(this);
-	mainMenu = new MainMenu(this);
+    RenderHelper::getInstance()->init();
+	mainMenu = new MainMenu();
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	sprite = Sprite3D::create("boss.c3b");
-	sprite->setScale(5.f);
-	sprite->setPosition3D(Vec3(0, 0, 500));
+	auto sprite = Sprite3D::create("boss.c3b");
+
+	// sprite->setScale(5.f);
+	// sprite->setPosition3D(Vec3(0, 0, 500));
 	
-	addChild(sprite, 1);
+	// addChild(sprite, 1);
 
 	getDefaultCamera()->setPosition3D(Vec3(0, 0, 0));
 
@@ -85,29 +115,29 @@ void VRScene::update(float delta)
 	{
 		AudioHelper::getInstance()->startPlayAssert("song.wav");
 		// AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
-		renderHelper->setWeather(WEATHER_SNOW);
-		mainMenu->popUp();
+		// RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
+		// mainMenu->popUp();
 	}
-	if (currentTime >= 5 && currentTime-delta < 5)
-	{
-		mainMenu->leftSlide();
-	}
+	// if (currentTime >= 5 && currentTime-delta < 5)
+	// {
+	// 	mainMenu->leftSlide();
+	// }
 
-	if (currentTime >= 10 && currentTime-delta < 10)
-	{
-		renderHelper->setWeather(WEATHER_RAIN);
-		mainMenu->rightSlide();
-	}
-	if (currentTime >= 15 && currentTime-delta < 15)
-	{
-		mainMenu->confirm();
-	}
+	// if (currentTime >= 10 && currentTime-delta < 10)
+	// {
+	// 	RenderHelper::getInstance()->setWeather(WEATHER_RAIN);
+	// 	mainMenu->rightSlide();
+	// }
+	// if (currentTime >= 15 && currentTime-delta < 15)
+	// {
+	// 	mainMenu->confirm();
+	// }
 
-	if (currentTime >= 20 && currentTime-delta < 20)
-	{
-		renderHelper->setWeather(WEATHER_SNOW);
-		mainMenu->rightSlide();
-	}
+	// if (currentTime >= 20 && currentTime-delta < 20)
+	// {
+	// 	RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
+	// 	mainMenu->rightSlide();
+	// }
 
 
 

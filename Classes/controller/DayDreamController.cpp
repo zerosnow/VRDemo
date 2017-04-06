@@ -5,7 +5,7 @@ DayDreamController::DayDreamController(VRGvrController *controller, ControllerIn
 {
 	mControllerInterface = controllerInterface;
 	if (mControllerInterface == nullptr) {
-		LOGD("11111");
+		LOGE("mControllerInterface is null");
 	} 
 }
 
@@ -23,7 +23,6 @@ void DayDreamController::onUpdate()
 		// LOGD("orientation: %f %f %f %f", state.orientation.qx, state.orientation.qy, state.orientation.qz, state.orientation.qw);
 		if (state.is_touching)
 		{
-			LOGD("touch_pos: %f, %f", state.touch_pos.x, state.touch_pos.y);
 			if (state.touch_pos.x > 0.5)
 			{
 				mControllerInterface->onRightDown();

@@ -1,20 +1,21 @@
 #include "MainMenu.h"
+#include "utils/Global.h"
+#include "render/RenderHelper.h"
 
 extern string mainMenuData[][2];
 extern string lyricMenuData[][2];
 extern string bgMenuData[][2];
 extern string weatherMenuData[][2];
 
-MainMenu::MainMenu(Scene *scene)
+MainMenu::MainMenu()
 {
-	currentScene = scene;
 	for (int i = 0; i < 4; ++i)
 	{	
 		auto item = new VRMenuItem(mainMenuData[i][0], mainMenuData[i][1]);
 		//初始化
 		item->setScale(0.f);
 		item->setPosition3D(Vec3(0.f, 0.f, -150.f));
-		currentScene->getDefaultCamera()->addChild(item);
+		Global::getCurrentScene()->getDefaultCamera()->addChild(item);
 		mainMenuList.push_back(item);
 	}
 	mainPosition = 1;
@@ -114,34 +115,34 @@ void MainMenu::confirm()
 		{
 			if (subPosition == 0)				//展示歌词
 			{
-				/* code */
+				RenderHelper::getInstance()->setLyricLayer(true);
 			} else if (subPosition == 1)		//不展示歌词
 			{
-				/* code */
+				RenderHelper::getInstance()->setLyricLayer(false);
 			}
 		} else if (mainPosition == 1)		//背景
 		{
 			if (subPosition == 0)				//阴天
 			{
-				/* code */
+				RenderHelper::getInstance()->setSkybox(CLOUDY_LIGHT_RAYS);
 			} else if (subPosition == 1)		//暴雨
 			{
-				/* code */
+				RenderHelper::getInstance()->setSkybox(DARK_STORMY);
 			} else if (subPosition == 2)		//雪山
 			{
-				/* code */
+				RenderHelper::getInstance()->setSkybox(SNOW_MOUNTAIN);
 			} else if (subPosition == 3)		//阳光明媚
 			{
-				/* code */
+				RenderHelper::getInstance()->setSkybox(SUN_SET);
 			}
 		}else if (mainPosition == 2)			//天气
 		{
 			if (subPosition == 0)				//雨景
 			{
-				/* code */
+				RenderHelper::getInstance()->setWeather(WEATHER_RAIN);
 			} else if (subPosition == 1)		//雪景
 			{
-				/* code */
+				RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
 			}
 		}
 		updateMenu(mainMenuList, DISAPPEAR, mainPosition);
@@ -157,25 +158,27 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = Spawn::create(MoveTo::create(0.8f, Vec3(100.0*(i-position), 0, -150.0)), ScaleTo::create(0.8f, 1.0f), nullptr);
+				auto action = Spawn::create(MoveTo::create(0.5f, Vec3(100.0*(i-position), 0, -150.0)), ScaleTo::create(0.5f, 1.0f), nullptr);
 				list.at(i)->runAction(action);
 			}
+			state = MENU_ON;
 			break;
 		}
 		case DISAPPEAR:
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = Spawn::create(MoveTo::create(0.8f, Vec3(0.f, 0.f, -150.0)), ScaleTo::create(0.8f, 0.01f), nullptr);
+				auto action = Spawn::create(MoveTo::create(0.5f, Vec3(0.f, 0.f, -150.0)), ScaleTo::create(0.5f, 0.01f), nullptr);
 				list.at(i)->runAction(action);
 			}
+			state = MENU_OFF;
 			break;
 		}
 		case LEFT_SLIDE:
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveTo::create(0.8f, Vec3(100.0*(i-position), 0, -150.0));
+				auto action = MoveTo::create(0.5f, Vec3(100.0*(i-position), 0, -150.0));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -184,7 +187,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveTo::create(0.8f, Vec3(100.0*(i-position), 0, -150.0));
+				auto action = MoveTo::create(0.5f, Vec3(100.0*(i-position), 0, -150.0));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -193,7 +196,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{	
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveBy::create(0.8f, Vec3(0.f, 100.f, 0.f));
+				auto action = MoveBy::create(0.5f, Vec3(0.f, 100.f, 0.f));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -202,7 +205,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveBy::create(0.8f, Vec3(0.f, -100.f, 0.f));
+				auto action = MoveBy::create(0.5f, Vec3(0.f, -100.f, 0.f));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -215,7 +218,7 @@ void MainMenu::initSubMenuData(string subMenuData[][2], int dataNum)
 	//清除原有数据
 	for (int i = 0; i < subMenuList.size(); ++i)
 	{
-		currentScene->getDefaultCamera()->removeChild(subMenuList.at(i));
+		Global::getCurrentScene()->getDefaultCamera()->removeChild(subMenuList.at(i));
 	}
 	subMenuList.clear();
 
@@ -225,7 +228,12 @@ void MainMenu::initSubMenuData(string subMenuData[][2], int dataNum)
 		//初始化
 		item->setScale(0.f);
 		item->setPosition3D(Vec3(0.f, 0.f, -150.f));
-		currentScene->getDefaultCamera()->addChild(item);
+		Global::getCurrentScene()->getDefaultCamera()->addChild(item);
 		subMenuList.push_back(item);
 	}
+}
+
+enum MenuState MainMenu::getMenuState()
+{
+	return state;
 }

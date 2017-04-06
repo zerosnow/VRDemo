@@ -10,16 +10,19 @@ using namespace cocos2d;
 class RenderHelper
 {
 public:
-	RenderHelper(Scene *scene);
+	static RenderHelper *getInstance();
 	~RenderHelper();
 
 	void setSkybox(enum SkyboxType type);
 	void setWeather(enum WeatherType type);
+	void setLyricLayer(bool visible);
 	bool init();
 
 private:
+	RenderHelper();
+	static RenderHelper *instance;
+
 	LyricLayer *lyricLayer;
 	SkyboxHelper *skyboxHelper;
 	WeatherHelper *weatherHelper;
-	Scene *currentScene;
 };

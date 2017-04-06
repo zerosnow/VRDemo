@@ -14,7 +14,7 @@ enum WeatherType {
 class WeatherHelper
 {
 public:
-	WeatherHelper(Scene *scene);
+	WeatherHelper();
 	~WeatherHelper();
 
 	void setWeather(enum WeatherType type);

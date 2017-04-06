@@ -15,10 +15,15 @@ enum menuOperation {
 	DOWN_SLIDE
 };
 
+enum MenuState {
+	MENU_OFF,
+	MENU_ON
+};
+
 class MainMenu
 {
 public:
-	MainMenu(Scene *scene);
+	MainMenu();
 	~MainMenu();
 
 	void popUp();
@@ -29,6 +34,7 @@ public:
 
 	void confirm();
 
+	enum MenuState getMenuState();
 private:
 	void updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int position);
 	void initSubMenuData(string subMenuData[][2], int dataNum);
@@ -38,5 +44,5 @@ private:
 
 	int mainPosition;
 	int subPosition;
-	Scene *currentScene;
+    enum MenuState state = MENU_OFF;
 };

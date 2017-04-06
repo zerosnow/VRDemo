@@ -1,24 +1,35 @@
 #include "RenderHelper.h"
+#include "utils/Global.h"
 
-RenderHelper::RenderHelper(Scene *scene)
+RenderHelper *RenderHelper::instance = nullptr;
+RenderHelper *RenderHelper::getInstance()
 {
-	currentScene = scene;
+	if (instance == nullptr)
+	{
+		instance = new RenderHelper;
+	}
+	return instance;
+}
 
-	lyricLayer = LyricLayer::create();
-    lyricLayer->setPosition3D(Vec3(0.0f, 0.0f, -100.0f));
 
-	currentScene->getDefaultCamera()->addChild(lyricLayer);
-
-	skyboxHelper = new SkyboxHelper();
-	skyboxHelper->setSkybox(SNOW_MOUNTAIN);
-	auto skybox = skyboxHelper->getSkybox();
-	currentScene->addChild(skybox);
-
-	weatherHelper = new WeatherHelper(scene);
+RenderHelper::RenderHelper()
+{
+	
 }
 
 bool RenderHelper::init()
 {
+	lyricLayer = LyricLayer::create();
+    lyricLayer->setPosition3D(Vec3(0.0f, 0.0f, -100.0f));
+
+	Global::getCurrentScene()->getDefaultCamera()->addChild(lyricLayer);
+
+	skyboxHelper = new SkyboxHelper();
+	skyboxHelper->setSkybox(SNOW_MOUNTAIN);
+	auto skybox = skyboxHelper->getSkybox();
+	Global::getCurrentScene()->addChild(skybox);
+
+	weatherHelper = new WeatherHelper();
 	return true;
 }
 
@@ -36,4 +47,10 @@ void RenderHelper::setWeather(enum WeatherType type)
 {
 	weatherHelper->setWeather(type);
 }
+
+void RenderHelper::setLyricLayer(bool visible)
+{
+	lyricLayer->setVisible(visible);
+}
+
 

@@ -23,9 +23,7 @@ public:
 	CREATE_FUNC(VRScene);
 
 private:
-	RenderHelper *renderHelper;
 	MainMenu *mainMenu;
-	Sprite3D *sprite;
     JniMethodInfo methodInfo;
     DayDreamController *dayDreamController;
 };

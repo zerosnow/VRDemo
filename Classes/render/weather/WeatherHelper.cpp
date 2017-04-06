@@ -1,16 +1,17 @@
 #include "WeatherHelper.h"
+#include "utils/Global.h"
 
-WeatherHelper::WeatherHelper(Scene *scene)
+WeatherHelper::WeatherHelper()
 {
 	FileUtils::getInstance()->addSearchPath("Particle3D/materials");
     FileUtils::getInstance()->addSearchPath("Particle3D/scripts");
 
 	
     _snow = PUParticleSystem3D::create("snow.pu", "pu_mediapack_01.material");
-    scene->addChild(_snow);
+    Global::getCurrentScene()->addChild(_snow);
 
     _rain = PUParticleSystem3D::create("rainSystem.pu");
-    scene->addChild(_rain);
+    Global::getCurrentScene()->addChild(_rain);
 }
 WeatherHelper::~WeatherHelper()
 {

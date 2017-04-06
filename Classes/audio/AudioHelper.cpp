@@ -91,13 +91,14 @@ void AudioHelper::stopPlay()
 void AudioHelper::playForward()
 {
 	fseek(playFilePointer, offsetForOne, 1);
-	audioPlayer->addTimeSize((int)offsetForOne / sizeof(short));
+	//sizeof结果为unsign long类型，如果不强转类型，被除数会自动提升为unsign long类型，如果被除数为负数，则会出现错误。
+	audioPlayer->addTimeSize((int)offsetForOne / (long)(sizeof(short)));	
 }
 
 void AudioHelper::playBack()
 {
 	fseek(playFilePointer, -offsetForOne, 1);
-	audioPlayer->addTimeSize(-(int)offsetForOne / sizeof(short));
+	audioPlayer->addTimeSize(-offsetForOne / (long)(sizeof(short)));
 }
 
 void AudioHelper::playPause()
@@ -117,7 +118,7 @@ void AudioHelper::playResume()
 void AudioHelper::recordBack()
 {
 	fseek(recordFilePointer, -offsetForOne, 1);
-	audioRecord->addTimeSize(-(int)offsetForOne / sizeof(short));
+	audioRecord->addTimeSize(-(int)offsetForOne / (long)(sizeof(short)));
 }
 
 void AudioHelper::recordPause()
