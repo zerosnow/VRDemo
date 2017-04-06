@@ -13,9 +13,6 @@ void VRScene::onLeftDown()
 	{
 		AudioHelper::getInstance()->playPause();
 		AudioHelper::getInstance()->playBack();
-	} else if(mainMenu->getMenuState() == MENU_ON)
-	{
-		mainMenu->leftSlide();
 	}
 }
 
@@ -26,7 +23,22 @@ void VRScene::onRightDown()
 	{
 		AudioHelper::getInstance()->playPause();
 		AudioHelper::getInstance()->playForward();
-	} else if(mainMenu->getMenuState() == MENU_ON)
+	}
+}
+
+void VRScene::onLeftUp()
+{
+	LOGD("onLeftUp");
+	if(mainMenu->getMenuState() == MENU_ON)
+	{
+		mainMenu->leftSlide();
+	}
+}
+
+void VRScene::onRightUp()
+{
+	LOGD("onRightUp");
+	if(mainMenu->getMenuState() == MENU_ON)
 	{
 		mainMenu->rightSlide();
 	}

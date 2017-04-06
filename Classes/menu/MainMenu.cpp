@@ -38,13 +38,14 @@ void MainMenu::popUp()
 void MainMenu::close()
 {
 	updateMenu(mainMenuList, DISAPPEAR, mainPosition);
+	updateMenu(subMenuList, DISAPPEAR, subPosition);
 }
 
 void MainMenu::leftSlide()
 {
 	if (subPosition == -1)
 	{
-		if (mainPosition == 3)
+		if (mainPosition == 0)
 		{
 			return;
 		}
@@ -57,7 +58,7 @@ void MainMenu::leftSlide()
 			return ;
 		}
 		subPosition--;
-		updateMenu(mainMenuList, LEFT_SLIDE, mainPosition);
+		updateMenu(subMenuList, LEFT_SLIDE, subPosition);
 	}
 }
 
@@ -125,13 +126,13 @@ void MainMenu::confirm()
 			if (subPosition == 0)				//阴天
 			{
 				RenderHelper::getInstance()->setSkybox(CLOUDY_LIGHT_RAYS);
-			} else if (subPosition == 1)		//暴雨
+			} else if (subPosition == 1)		//风雨交加
 			{
 				RenderHelper::getInstance()->setSkybox(DARK_STORMY);
 			} else if (subPosition == 2)		//雪山
 			{
 				RenderHelper::getInstance()->setSkybox(SNOW_MOUNTAIN);
-			} else if (subPosition == 3)		//阳光明媚
+			} else if (subPosition == 3)		//夕阳
 			{
 				RenderHelper::getInstance()->setSkybox(SUN_SET);
 			}
@@ -145,8 +146,7 @@ void MainMenu::confirm()
 				RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
 			}
 		}
-		updateMenu(mainMenuList, DISAPPEAR, mainPosition);
-		updateMenu(subMenuList, DISAPPEAR, subPosition);
+		close();
 	}
 }
 

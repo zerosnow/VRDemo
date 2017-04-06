@@ -33,6 +33,12 @@ void DayDreamController::onUpdate()
 		if (state.touch_up)
 		{
 			mControllerInterface->onTouchUp();
+			if (state.touch_pos.x > 0.5)
+			{
+				mControllerInterface->onRightUp();
+			} else {
+				mControllerInterface->onLeftUp();
+			}
 		}
 		if (state.button_up[GVR_CONTROLLER_BUTTON_APP])
 		{

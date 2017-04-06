@@ -15,9 +15,9 @@ string lyricMenuData[][2] = {
 
 string bgMenuData[][2] = {
 	"阴天", "blackbackground.jpg",
-	"暴雨", "blackbackground.jpg",
+	"风雨交加", "blackbackground.jpg",
 	"雪山", "blackbackground.jpg",
-	"阳光明媚", "blackbackground.jpg"
+	"夕阳", "blackbackground.jpg"
 };
 
 string weatherMenuData[][2] = {

@@ -16,6 +16,8 @@ public:
 	virtual void update(float delta);
 	virtual void onLeftDown();
 	virtual void onRightDown();
+	virtual void onLeftUp();
+	virtual void onRightUp();
 	virtual void onAppButtonUp();
 	virtual void updateOrientation(gvr_quatf orientation);
 	virtual void onTouchUp();
