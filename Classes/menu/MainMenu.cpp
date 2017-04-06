@@ -89,10 +89,22 @@ void MainMenu::confirm()
 	{
 		if (mainPosition == 0)
 		{
+			subPosition = 0;
+			initSubMenuData(lyricMenuData, 2);
+			updateMenu(mainMenuList, DOWN_SLIDE, mainPosition);
+			updateMenu(subMenuList, APPEAR, subPosition);
 		} else if (mainPosition == 1)
 		{
+			subPosition = 0;
+			initSubMenuData(bgMenuData, 4);
+			updateMenu(mainMenuList, DOWN_SLIDE, mainPosition);
+			updateMenu(subMenuList, APPEAR, subPosition);
 		} else if (mainPosition == 2)
 		{
+			subPosition = 0;
+			initSubMenuData(weatherMenuData, 2);
+			updateMenu(mainMenuList, DOWN_SLIDE, mainPosition);
+			updateMenu(subMenuList, APPEAR, subPosition);
 		} else if (mainPosition == 3)
 		{
 			updateMenu(mainMenuList, DISAPPEAR, mainPosition);
