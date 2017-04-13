@@ -19,6 +19,7 @@ public:
 
 	void setSkybox(enum SkyboxType type);
 	Skybox *getSkybox();
+	enum SkyboxType getSkyboxType();
 	
 private:
 	TextureCube *cloudyLightRays;
@@ -29,4 +30,6 @@ private:
 	Texture2D::TexParams tRepeatParams;
 	GLProgramState *state;
 	Skybox *skybox;
+
+	enum SkyboxType mType;
 };

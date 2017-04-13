@@ -6,6 +6,19 @@
 
 using namespace std;
 
+struct RecordInfo
+{
+	string songFileName;
+	string lyricFileName;
+	int weatherType;
+	int bgType;
+
+	string songName;
+	string songTime;
+	string weatherTag;
+	string bgTag;
+};
+
 class AudioHelper
 {
 public:
@@ -54,4 +67,5 @@ public:
 
 private:
 	const long offsetForOne = 40000;
+	void storeRecordInfo();
 };

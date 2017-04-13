@@ -87,3 +87,13 @@ void RenderHelper::initStartLayer()
 	startLayer->setPosition3D(Vec3(0.f, 0.f, -150.f));
 	Global::getCurrentScene()->getDefaultCamera()->addChild(startLayer);
 }
+
+enum WeatherType RenderHelper::getWeatherType()
+{
+	return weatherHelper->getWeatherType();
+}
+
+enum SkyboxType RenderHelper::getSkyboxType()
+{
+	return skyboxHelper->getSkyboxType();
+}

@@ -163,19 +163,6 @@ void VRScene::update(float delta)
 	}
 }
 
-string getCurrentTime()
-{
-	struct timeval tv;
-	gettimeofday(&tv, nullptr);
-	struct tm *tm = localtime(&tv.tv_sec);
-
-	char currentTime[128];
-	strftime(currentTime, 128, "%F %T", tm);
-	string time(currentTime);
-	LOGD("currentTime :%s", currentTime);
-	return time;
-}
-
 bool checkStart()
 {
 	if (RenderHelper::getInstance()->isStart())
@@ -187,7 +174,7 @@ bool checkStart()
 		{
 			string songFileName = Global::getInstance()->getSongInfo()->songFileName;
 			AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() + 
-				songFileName.substr(0, songFileName.find_last_of(".")) + "_" + getCurrentTime() + ".pcm");
+				songFileName.substr(0, songFileName.find_last_of(".")) + "_" + Global::getCurrentTime() + ".pcm");
 		}
 		return true;
 	}

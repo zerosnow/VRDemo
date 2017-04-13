@@ -54,6 +54,7 @@ SkyboxHelper::~SkyboxHelper()
 
 void SkyboxHelper::setSkybox(enum SkyboxType type)
 {
+	mType = type;
 	switch(type) 
 	{
 		case CLOUDY_LIGHT_RAYS:
@@ -80,4 +81,9 @@ void SkyboxHelper::setSkybox(enum SkyboxType type)
 Skybox *SkyboxHelper::getSkybox()
 {
 	return skybox;
+}
+
+enum SkyboxType SkyboxHelper::getSkyboxType()
+{
+	return mType;
 }

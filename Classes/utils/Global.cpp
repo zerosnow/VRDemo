@@ -54,3 +54,15 @@ bool Global::isRecord()
 {
 	return getSongInfo()->playType == 2;
 }
+
+string Global::getCurrentTime()
+{
+	struct timeval tv;
+	gettimeofday(&tv, nullptr);
+	struct tm *tm = localtime(&tv.tv_sec);
+
+	char currentTime[128];
+	strftime(currentTime, 128, "%F %T", tm);
+	string time(currentTime);
+	return time;
+}

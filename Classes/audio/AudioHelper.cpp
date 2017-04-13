@@ -1,10 +1,13 @@
 
 #include "AudioHelper.h"
 #include "utils/logutil.h"
+#include "utils/Global.h"
 #include <pthread.h>
 #include "cocos2d.h"
 #include "wav.h"
 #include "thread.h"
+#include "render/RenderHelper.h"
+
 
 using namespace cocos2d;
 
@@ -167,6 +170,24 @@ double AudioHelper::getRecordTime()
 	return audioRecord->getTime();
 }
 
+void AudioHelper::storeRecordInfo()
+{
+	extern string bgMenuData[][2];
+	extern string weatherMenuData[][2];
+	struct RecordInfo recordInfo;
+	recordInfo.songFileName = recordFileName;
+	recordInfo.lyricFileName = Global::getInstance()->getSongInfo()->lyricFileName;
+	recordInfo.weatherType = RenderHelper::getInstance()->getWeatherType();
+	recordInfo.bgType = RenderHelper::getInstance()->getSkyboxType();
+
+	recordInfo.songName = Global::getInstance()->getSongInfo()->songFileName;
+	recordInfo.songName = recordInfo.songName.substr(0, recordInfo.songName.find_last_of("."));
+	recordInfo.songTime = Global::getCurrentTime();
+	recordInfo.weatherTag = weatherMenuData[recordInfo.weatherType][0];
+	recordInfo.bgTag = bgMenuData[recordInfo.bgType][0];
+}
+
+
 static void *threadStartPlay(void *param)
 {
 	AudioHelper *audioHelper = (AudioHelper *)param;
@@ -264,9 +285,8 @@ static void *threadStartRecord(void *param)
 	fclose(audioHelper->recordFilePointer);
 	delete audioHelper->audioRecord;
 
+
 	LOGD("nativeStartCapture completed !");
 
 	return nullptr;
 }
-
-

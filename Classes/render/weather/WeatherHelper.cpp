@@ -20,6 +20,7 @@ WeatherHelper::~WeatherHelper()
 
 void WeatherHelper::setWeather(enum WeatherType type)
 {
+	mType = type;
 	switch(type)
 	{
 		case WEATHER_SNOW:
@@ -35,5 +36,9 @@ void WeatherHelper::setWeather(enum WeatherType type)
 	}
 }
 
+enum WeatherType WeatherHelper::getWeatherType()
+{
+	return mType;
+}
 
 

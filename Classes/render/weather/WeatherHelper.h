@@ -18,8 +18,9 @@ public:
 	~WeatherHelper();
 
 	void setWeather(enum WeatherType type);
-
+	enum WeatherType getWeatherType();
 private:
 	PUParticleSystem3D *_snow;
 	PUParticleSystem3D *_rain;
+	enum WeatherType mType;
 };

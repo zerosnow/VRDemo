@@ -16,6 +16,8 @@ public:
 	void setSkybox(enum SkyboxType type);
 	void setWeather(enum WeatherType type);
 	void setLyricLayer(bool visible);
+	enum WeatherType getWeatherType();
+	enum SkyboxType getSkyboxType();
 	void closeStartLayer();
 	bool isStart();
 	bool init();
