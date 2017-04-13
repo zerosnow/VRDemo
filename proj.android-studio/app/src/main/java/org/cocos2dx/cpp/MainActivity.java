@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.common.logging.nano.Vr;
 
 import org.cocos2dx.VRDemo.R;
 
@@ -24,11 +27,19 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     private final static String TAG = "MainActivity";
     private ListView mListView;
     private LocalRecordAdapter mAdapter;
+    private Button mRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mRecord = (Button) findViewById(R.id.local_record_button);
+        mRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoVRMode(null);
+            }
+        });
         mListView = (ListView) findViewById(R.id.local_record_list);
         mListView.setOnItemClickListener(this);
 
@@ -44,19 +55,46 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         info.songTime = "2017年4月13日10:11";
         info.weatherTag = "下雪";
         info.bgTag = "夕阳";
+        info.bgType = 0;
+        info.weatherType = 1;
+        info.lyricFileName = "埋葬冬天.lrc";
+        info.songFileName = "song.wav";
 
         list.add(info);
+        info.bgType = 1;
         list.add(info);
+        info.bgType = 2;
         list.add(info);
+        info.bgType = 3;
         list.add(info);
 
         return list;
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG, position + "");
+        LocalSongInfo info = mAdapter.getItem(position);
+        Log.d(TAG, info.bgType + "");
+        gotoVRMode(info);
+    }
+
+    private void gotoVRMode(LocalSongInfo info) {
+        if (info == null) {
+            //录音
+            VRSongInfo.playType = 2;
+            VRSongInfo.songFileName = "song.wav";
+            VRSongInfo.lyricFileName = "埋葬冬天.lrc";
+            VRSongInfo.weatherType = 1;
+            VRSongInfo.bgType = 1;
+        } else {
+            //播放
+            VRSongInfo.playType = 1;
+            VRSongInfo.songFileName = info.songFileName;
+            VRSongInfo.lyricFileName = info.lyricFileName;
+            VRSongInfo.weatherType = info.weatherType;
+            VRSongInfo.bgType = info.bgType;
+        }
         Intent intent = new Intent(MainActivity.this, AppActivity.class);
         startActivity(intent);
         System.gc();
