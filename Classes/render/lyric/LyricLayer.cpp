@@ -1,6 +1,7 @@
 #include "LyricLayer.h"
 #include "audio/AudioHelper.h"
 #include "utils/logutil.h"
+#include "utils/Global.h"
 
 bool LyricLayer::init() {
 	if (!Layer::init())
@@ -32,7 +33,7 @@ bool LyricLayer::init() {
     }
 
     lyricUtil = new LyricUtil;
-    lyricUtil->loadFileFromAsset("埋葬冬天.lrc");
+    lyricUtil->loadFileFromAsset(Global::getInstance()->getSongInfo()->lyricFileName);
 
     scheduleUpdate();
 

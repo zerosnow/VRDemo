@@ -77,6 +77,39 @@ void VRScene::onTouchUp()
 	}
 }
 
+void dealSongInfo()
+{
+	SongInfo *songInfo = Global::getInstance()->getSongInfo();
+	switch(songInfo->weatherType)
+	{
+		case 0:
+		RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
+		break;
+		case 1:
+		RenderHelper::getInstance()->setWeather(WEATHER_RAIN);
+		break;
+		default:
+		break;
+	}
+	switch(songInfo->bgType)
+	{
+		case 0:
+		RenderHelper::getInstance()->setSkybox(CLOUDY_LIGHT_RAYS);
+		break;
+		case 1:
+		RenderHelper::getInstance()->setSkybox(DARK_STORMY);
+		break;
+		case 2:
+		RenderHelper::getInstance()->setSkybox(SNOW_MOUNTAIN);
+		break;
+		case 3:
+		RenderHelper::getInstance()->setSkybox(SUN_SET);
+		break;
+		default:
+		break;
+	}
+}
+
 bool VRScene::init()
 {
 	if (!Scene::init())
@@ -96,25 +129,15 @@ bool VRScene::init()
 
 	auto sprite = Sprite3D::create("boss.c3b");
 
-	// sprite->setScale(5.f);
-	// sprite->setPosition3D(Vec3(0, 0, 500));
-	
-	// addChild(sprite, 1);
-
 	getDefaultCamera()->setPosition3D(Vec3(0, 0, 0));
 
-    /*if (JniHelper::getStaticMethodInfo(methodInfo, "org.cocos2dx.cpp.MediaPlayerHelper", 
-        "playMusic", "(Ljava/lang/String;)V")) {
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, 
-            methodInfo.env->NewStringUTF("song.wav"));
-    } else {
-        LOGD("getStaticMethodInfo error");
-    }*/
+    dealSongInfo();
 
     scheduleUpdate();
 
 	return true;
 }
+
 
 float currentTime = 0;
 
@@ -125,57 +148,9 @@ void VRScene::update(float delta)
 
 	if (currentTime >= 2 && currentTime-delta < 2)
 	{
-		AudioHelper::getInstance()->startPlayAssert("song.wav");
+		AudioHelper::getInstance()->startPlayAssert(Global::getInstance()->getSongInfo()->songFileName);
 		// AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
-		// RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
-		// mainMenu->popUp();
 	}
-	// if (currentTime >= 5 && currentTime-delta < 5)
-	// {
-	// 	mainMenu->leftSlide();
-	// }
-
-	// if (currentTime >= 10 && currentTime-delta < 10)
-	// {
-	// 	RenderHelper::getInstance()->setWeather(WEATHER_RAIN);
-	// 	mainMenu->rightSlide();
-	// }
-	// if (currentTime >= 15 && currentTime-delta < 15)
-	// {
-	// 	mainMenu->confirm();
-	// }
-
-	// if (currentTime >= 20 && currentTime-delta < 20)
-	// {
-	// 	RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
-	// 	mainMenu->rightSlide();
-	// }
-
-
-
-	// if (currentTime >= 30 && currentTime - delta < 30)
-	// {
-	// 	AudioHelper::getInstance()->stopPlay();
-	// 	AudioHelper::getInstance()->stopRecord();
-	// 	AudioHelper::getInstance()->startPlay(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
-	// }
-	
-	
-//	LOGD("getTime : %lf", getTime());
-
-	
-
- //   if (JniHelper::getStaticMethodInfo(methodInfo, "org.cocos2dx.cpp.MediaPlayerHelper", 
- //       "getCurrentPositon", "()I")) {
- //       int currentPosition = methodInfo.env->CallStaticIntMethod(methodInfo.classID, methodInfo.methodID, 
- //           methodInfo.env->NewStringUTF("song.wav"));
- //       LOGD("current position = %d", currentPosition);
- //   } else {
- //       LOGD("getStaticMethodInfo error");
- //   }
-	///*LOGD("camera: %f, %f, %f, %f\n%f, %f, %f, %f\n%f, %f, %f, %f\n%f, %f, %f, %f\n", mat.m[0], mat.m[1], mat.m[2], mat.m[3],
-	//	mat.m[4], mat.m[5], mat.m[6], mat.m[7], mat.m[8], mat.m[9], mat.m[10], mat.m[11], mat.m[12], mat.m[13], mat.m[14], mat.m[15]);*/
-
 }
 
 
