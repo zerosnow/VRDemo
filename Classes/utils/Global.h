@@ -11,6 +11,7 @@ public:
 	static void setCurrentScene(Scene *scene);
 	static Scene *getCurrentScene();
 	static SongInfo *getSongInfo();
+	static bool isRecord();
 private:
 	Global();
 	static Global *instance;

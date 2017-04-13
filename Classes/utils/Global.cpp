@@ -50,3 +50,7 @@ SongInfo *Global::getSongInfo()
 	return songInfo;
 }
 
+bool Global::isRecord()
+{
+	return getSongInfo()->playType == 2;
+}

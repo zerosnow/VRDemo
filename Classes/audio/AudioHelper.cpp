@@ -67,7 +67,7 @@ void AudioHelper::startPlayAssert(string fileName)
 
 void AudioHelper::startRecord(string fileName)
 {
-	LOGD("begin record");
+	LOGD("begin record: %s", fileName.c_str());
 
 	this->recordFileName = fileName;
 	pthread_t thread = 0;

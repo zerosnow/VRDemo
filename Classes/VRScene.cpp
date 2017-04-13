@@ -6,6 +6,9 @@
 #include "gvr-sdk/CCVRGvrRenderer.h"
 #include "utils/Global.h"
 
+string getCurrentTime();
+bool checkStart();
+
 void VRScene::onLeftDown()
 {
 	LOGD("onLeftDown");
@@ -47,6 +50,10 @@ void VRScene::onRightUp()
 void VRScene::onAppButtonUp()
 {
 	LOGD("onAppButtonUp");
+	if (checkStart())
+	{
+		return ;
+	}
 	if (mainMenu->getMenuState() == MENU_OFF)
 	{
 		AudioHelper::getInstance()->playPause();
@@ -71,6 +78,10 @@ void VRScene::updateOrientation(gvr_quatf orientation)
 void VRScene::onTouchUp()
 {
 	LOGD("onTouchUp");
+	if (checkStart())
+	{
+		return ;
+	}
 	if (mainMenu->getMenuState() == MENU_OFF)
 	{
 		AudioHelper::getInstance()->playResume();
@@ -146,11 +157,41 @@ void VRScene::update(float delta)
 	dayDreamController->onUpdate();
 	currentTime += delta;
 
-	if (currentTime >= 2 && currentTime-delta < 2)
+	if (currentTime >= 5 && currentTime-delta < 5)
 	{
-		AudioHelper::getInstance()->startPlayAssert(Global::getInstance()->getSongInfo()->songFileName);
-		// AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() += "audio.pcm");
+		onAppButtonUp();
 	}
+}
+
+string getCurrentTime()
+{
+	struct timeval tv;
+	gettimeofday(&tv, nullptr);
+	struct tm *tm = localtime(&tv.tv_sec);
+
+	char currentTime[128];
+	strftime(currentTime, 128, "%F %T", tm);
+	string time(currentTime);
+	LOGD("currentTime :%s", currentTime);
+	return time;
+}
+
+bool checkStart()
+{
+	if (RenderHelper::getInstance()->isStart())
+	{
+		RenderHelper::getInstance()->closeStartLayer();
+		AudioHelper::getInstance()->startPlayAssert(Global::getInstance()->getSongInfo()->songFileName);
+
+		if (Global::getInstance()->isRecord())
+		{
+			string songFileName = Global::getInstance()->getSongInfo()->songFileName;
+			AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() + 
+				songFileName.substr(0, songFileName.find_last_of(".")) + "_" + getCurrentTime() + ".pcm");
+		}
+		return true;
+	}
+	return false;
 }
 
 
