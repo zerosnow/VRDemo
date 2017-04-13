@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="6dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:background="@drawable/list_view_item_selector">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/kg_font_c1"
+            android:textSize="@dimen/kg_font_t2"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tag_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            style="@style/tag_style_red"/>
+
+        <TextView
+            android:id="@+id/tag_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            style="@style/tag_style_red"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/song_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/kg_font_c2"
+        android:textSize="@dimen/kg_font_t4"
+        android:layout_marginTop="3dp"
+        android:maxLines="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:color="@color/separate_line"/>
+</LinearLayout>

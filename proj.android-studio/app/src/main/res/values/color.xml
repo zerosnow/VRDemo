@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="separate_line">#000000</color>
+    <color name="list_view_item_background">#ffffff</color>
+    <color name="list_view_item_background_pressed">#f4f0ed</color>
+
+    <!-- 字色规范 -->
+    <color name="kg_font_c1">#000000</color>
+    <color name="kg_font_c2">#808080</color>
+    <color name="kg_font_c3">#FFFFFF</color>
+    <color name="kg_font_c4">#9F9C9C</color>
+    <color name="kg_font_c5">#CF4339</color>
+    <color name="kg_font_c6">#FF423F</color>
+</resources>

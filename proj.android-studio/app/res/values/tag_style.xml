@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="tag_style_red">
+    <item name="android:maxLines">1</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">11dp</item>
+    <item name="android:textColor">#f04f43</item>
+    <item name="android:background">@drawable/tag_circle_15dp_f04f43</item>
+</style>
+</resources>
