@@ -1,8 +1,11 @@
 package org.cocos2dx.cpp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +35,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (Build.VERSION.SDK_INT > 23) {
+            requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, 0);
+        }
+        FileUtils.init(this);
         mRecord = (Button) findViewById(R.id.local_record_button);
         mRecord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,33 +48,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         });
         mListView = (ListView) findViewById(R.id.local_record_list);
         mListView.setOnItemClickListener(this);
-
-        mAdapter = new LocalRecordAdapter(this, getList());
-        mListView.setAdapter(mAdapter);
-
     }
 
-    List<LocalSongInfo> getList() {
-        List<LocalSongInfo> list = new ArrayList<>();
-        LocalSongInfo info = new LocalSongInfo();
-        info.songName = "埋葬冬天";
-        info.songTime = "2017年4月13日10:11";
-        info.weatherTag = "下雪";
-        info.bgTag = "夕阳";
-        info.bgType = 0;
-        info.weatherType = 1;
-        info.lyricFileName = "埋葬冬天.lrc";
-        info.songFileName = "song.wav";
-
-        list.add(info);
-        info.bgType = 1;
-        list.add(info);
-        info.bgType = 2;
-        list.add(info);
-        info.bgType = 3;
-        list.add(info);
-
-        return list;
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            mAdapter = new LocalRecordAdapter(this, FileUtils.getSongInfo());
+            mListView.setAdapter(mAdapter);
+        }
     }
 
     @Override
@@ -99,7 +85,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         startActivity(intent);
         System.gc();
         System.gc();
-        finish();
     }
 
     class LocalRecordAdapter extends BaseAdapter {

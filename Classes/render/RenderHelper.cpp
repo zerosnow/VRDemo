@@ -20,6 +20,7 @@ RenderHelper::RenderHelper()
 
 bool RenderHelper::init()
 {
+	LOGD("RenderHelper::init()");
 	lyricLayer = LyricLayer::create();
     lyricLayer->setPosition3D(Vec3(0.0f, 0.0f, -100.0f));
 

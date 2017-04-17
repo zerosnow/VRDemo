@@ -123,6 +123,7 @@ void dealSongInfo()
 
 bool VRScene::init()
 {
+	LOGD("VRScene::init");
 	if (!Scene::init())
 	{
 		return false;
@@ -160,6 +161,12 @@ void VRScene::update(float delta)
 	if (currentTime >= 5 && currentTime-delta < 5)
 	{
 		onAppButtonUp();
+	}
+
+	if (currentTime >= 10 && currentTime-delta < 10)
+	{
+		AudioHelper::getInstance()->stopPlay();
+		AudioHelper::getInstance()->stopRecord();
 	}
 }
 

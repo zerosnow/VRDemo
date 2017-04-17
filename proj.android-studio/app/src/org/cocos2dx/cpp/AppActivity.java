@@ -41,6 +41,7 @@ public class AppActivity extends Cocos2dxActivity {
         }
         mVRSDKWrapper = new VRSDKWrapper();
         mVRSDKWrapper.onCreate(this);
+        ActivityHelper.setVrActivity(this);
     }
 
     @Override

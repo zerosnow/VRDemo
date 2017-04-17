@@ -44,6 +44,7 @@ public:
 	void changeRecordState();
 	double getPlayTime();
 	double getRecordTime();
+	void storeRecordInfo();
 
 	string playFileName;
 	string recordFileName;
@@ -67,5 +68,4 @@ public:
 
 private:
 	const long offsetForOne = 40000;
-	void storeRecordInfo();
 };

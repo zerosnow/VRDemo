@@ -54,18 +54,23 @@ void AudioHelper::startPlay(string fileName)
 
 void AudioHelper::startPlayAssert(string fileName)
 {
-	string fullFileName = FileUtils::getInstance()->fullPathForFilename(fileName);
+	if (fileName.find("/"))
+	{
+		string fullFileName = FileUtils::getInstance()->fullPathForFilename(fileName);
 
-	Data data = FileUtils::getInstance()->getDataFromFile(fullFileName);
+		Data data = FileUtils::getInstance()->getDataFromFile(fullFileName);
 
-	std::string destPath = FileUtils::getInstance()->getWritablePath();
-	destPath += fileName;
-	FILE *fp = fopen(destPath.c_str(), "w+");
-	fwrite(data.getBytes(), sizeof(char), data.getSize(), fp);
-	fclose(fp);
-	data.clear();
+		std::string destPath = FileUtils::getInstance()->getWritablePath();
+		destPath += fileName;
+		FILE *fp = fopen(destPath.c_str(), "w+");
+		fwrite(data.getBytes(), sizeof(char), data.getSize(), fp);
+		fclose(fp);
+		data.clear();
+		startPlay(destPath);
+	} else {
+		startPlay(fileName);
+	}
 
-	startPlay(destPath);
 }
 
 void AudioHelper::startRecord(string fileName)
@@ -172,6 +177,7 @@ double AudioHelper::getRecordTime()
 
 void AudioHelper::storeRecordInfo()
 {
+	LOGD("storeRecordInfo");
 	extern string bgMenuData[][2];
 	extern string weatherMenuData[][2];
 	struct RecordInfo recordInfo;
@@ -185,6 +191,23 @@ void AudioHelper::storeRecordInfo()
 	recordInfo.songTime = Global::getCurrentTime();
 	recordInfo.weatherTag = weatherMenuData[recordInfo.weatherType][0];
 	recordInfo.bgTag = bgMenuData[recordInfo.bgType][0];
+	//调用java层来存
+	JniMethodInfo methodInfo;
+	if (JniHelper::getStaticMethodInfo(methodInfo, "org.cocos2dx.cpp.FileUtils", "storeFileFromC"
+		, "(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"))
+	{
+		methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, 
+            methodInfo.env->NewStringUTF(recordInfo.songFileName.c_str()),
+            methodInfo.env->NewStringUTF(recordInfo.lyricFileName.c_str()),
+            recordInfo.weatherType,
+            recordInfo.bgType,
+            methodInfo.env->NewStringUTF(recordInfo.songName.c_str()),
+            methodInfo.env->NewStringUTF(recordInfo.songTime.c_str()),
+            methodInfo.env->NewStringUTF(recordInfo.weatherTag.c_str()),
+            methodInfo.env->NewStringUTF(recordInfo.bgTag.c_str()));
+    } else {
+        LOGD("getStaticMethodInfo error");
+    }
 }
 
 
@@ -243,6 +266,7 @@ static void *threadStartPlay(void *param)
 	delete audioHelper->audioPlayer;
 
 	LOGD("nativeStartPlayback completed !");
+	Director::getInstance()->end();
 
 	return nullptr;
 }
@@ -284,9 +308,10 @@ static void *threadStartRecord(void *param)
 	audioHelper->audioRecord->closeAudioDevice();
 	fclose(audioHelper->recordFilePointer);
 	delete audioHelper->audioRecord;
-
-
 	LOGD("nativeStartCapture completed !");
+
+	audioHelper->storeRecordInfo();
+	Director::getInstance()->end();
 
 	return nullptr;
 }
