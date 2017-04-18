@@ -37,6 +37,7 @@ public:
 	void playBack();
 	void playPause();
 	void playResume();
+	void recordForward();
 	void recordBack();
 	void recordPause();
 	void recordResume();

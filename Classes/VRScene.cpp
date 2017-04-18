@@ -16,6 +16,8 @@ void VRScene::onLeftDown()
 	{
 		AudioHelper::getInstance()->playPause();
 		AudioHelper::getInstance()->playBack();
+		AudioHelper::getInstance()->recordPause();
+		AudioHelper::getInstance()->recordBack();
 	}
 }
 
@@ -26,6 +28,8 @@ void VRScene::onRightDown()
 	{
 		AudioHelper::getInstance()->playPause();
 		AudioHelper::getInstance()->playForward();
+		AudioHelper::getInstance()->recordPause();
+		AudioHelper::getInstance()->recordForward();
 	}
 }
 
@@ -98,6 +102,7 @@ void VRScene::onTouchUp()
 	if (mainMenu->getMenuState() == MENU_OFF)
 	{
 		AudioHelper::getInstance()->playResume();
+		AudioHelper::getInstance()->recordResume();
 	}
 }
 

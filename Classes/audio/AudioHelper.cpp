@@ -98,15 +98,21 @@ void AudioHelper::stopPlay()
 
 void AudioHelper::playForward()
 {
-	fseek(playFilePointer, offsetForOne, 1);
-	//sizeof结果为unsign long类型，如果不强转类型，被除数会自动提升为unsign long类型，如果被除数为负数，则会出现错误。
-	audioPlayer->addTimeSize((int)offsetForOne / (long)(sizeof(short)));	
+	if (playFilePointer != nullptr)
+	{
+		 fseek(playFilePointer, offsetForOne, 1);
+		//sizeof结果为unsign long类型，如果不强转类型，被除数会自动提升为unsign long类型，如果被除数为负数，则会出现错误。
+		audioPlayer->addTimeSize((int)offsetForOne / (long)(sizeof(short)));	
+	}
 }
 
 void AudioHelper::playBack()
 {
-	fseek(playFilePointer, -offsetForOne, 1);
-	audioPlayer->addTimeSize(-offsetForOne / (long)(sizeof(short)));
+	if (playFilePointer != nullptr)
+	{
+		fseek(playFilePointer, -offsetForOne, 1);
+		audioPlayer->addTimeSize(-offsetForOne / (long)(sizeof(short)));
+	}
 }
 
 void AudioHelper::playPause()
@@ -123,10 +129,23 @@ void AudioHelper::playResume()
 	}
 }
 
+void AudioHelper::recordForward()
+{
+	if (recordFilePointer != nullptr)
+	{
+		//用于快进时填充
+		unsigned char *zerobuffer = new unsigned char[offsetForOne];
+		memset(zerobuffer, 0, offsetForOne);
+		fwrite((unsigned char *)zerobuffer, offsetForOne, 1, recordFilePointer);
+	}
+}
+
 void AudioHelper::recordBack()
 {
-	fseek(recordFilePointer, -offsetForOne, 1);
-	audioRecord->addTimeSize(-(int)offsetForOne / (long)(sizeof(short)));
+	if (recordFilePointer != nullptr)
+	{
+		fseek(recordFilePointer, -offsetForOne, 1);
+	}
 }
 
 void AudioHelper::recordPause()
