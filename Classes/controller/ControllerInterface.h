@@ -12,5 +12,7 @@ public:
 	virtual void onRightUp() = 0;
 	virtual void onAppButtonUp() = 0;
 	virtual void onTouchUp() = 0;
+	virtual void onLeftSlide() = 0;
+	virtual void onRightSlide() = 0;
 	virtual void updateOrientation(gvr_quatf orientation) = 0;
 };

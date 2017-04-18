@@ -69,9 +69,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         if (info == null) {
             //录音
             VRSongInfo.playType = 2;
-            VRSongInfo.songFileName = "song.wav";
+            VRSongInfo.songFileName = "埋葬冬天.wav";
             VRSongInfo.lyricFileName = "埋葬冬天.lrc";
-            VRSongInfo.weatherType = 1;
+            VRSongInfo.weatherType = 0;
             VRSongInfo.bgType = 1;
         } else {
             //播放

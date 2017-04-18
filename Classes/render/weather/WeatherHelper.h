@@ -6,8 +6,8 @@
 using namespace cocos2d;
 
 enum WeatherType {
-	WEATHER_SNOW,
 	WEATHER_RAIN,
+	WEATHER_SNOW,
 	WEATHER_DEFAULT
 };
 

@@ -16,4 +16,5 @@ public:
 
 private:
 	VRGvrController *mController;
+	gvr_vec2f mDownPoint;
 };

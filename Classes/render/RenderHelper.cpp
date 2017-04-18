@@ -70,7 +70,7 @@ bool RenderHelper::isStart()
 void RenderHelper::initStartLayer()
 {
 	string bgFile("blackbackground.jpg");
-	string text("按任意键开始");
+	string text("按确认键开始");
 	if (Global::getInstance()->isRecord())
 	{
 		text += "录制";

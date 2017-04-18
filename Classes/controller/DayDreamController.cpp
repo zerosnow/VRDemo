@@ -44,6 +44,23 @@ void DayDreamController::onUpdate()
 		{
 			mControllerInterface->onAppButtonUp();
 		}
+
+		if (state.touch_down)
+		{
+			mDownPoint = state.touch_pos;
+			LOGD("%f %f", mDownPoint.x, mDownPoint.y);
+		}
+		if (state.touch_up)
+		{
+			if (mDownPoint.x - state.touch_pos.x > 0.3)
+			{
+				mControllerInterface->onLeftSlide();
+			} else if (state.touch_pos.x - mDownPoint.x > 0.3)
+			{
+				mControllerInterface->onRightSlide();
+			}
+		}
+
 	} else {
 		// LOGD("gvr_controller_api_status: %d", state.api_status);
 		// LOGD("gvr_controller_connection_state: %d", state.connection_state);

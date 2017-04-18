@@ -32,18 +32,30 @@ void VRScene::onRightDown()
 void VRScene::onLeftUp()
 {
 	LOGD("onLeftUp");
-	if(mainMenu->getMenuState() == MENU_ON)
-	{
-		mainMenu->leftSlide();
-	}
+	
 }
 
 void VRScene::onRightUp()
 {
 	LOGD("onRightUp");
+	
+}
+
+void VRScene::onLeftSlide()
+{
+	LOGD("onLeftSlide");
 	if(mainMenu->getMenuState() == MENU_ON)
 	{
-		mainMenu->rightSlide();
+		mainMenu->rightMove();
+	}
+}
+
+void VRScene::onRightSlide()
+{
+	LOGD("onRightSlide");
+	if(mainMenu->getMenuState() == MENU_ON)
+	{
+		mainMenu->leftMove();
 	}
 }
 
@@ -65,6 +77,7 @@ void VRScene::onAppButtonUp()
 		if (mainMenu->getMenuState() == MENU_OFF)
 		{
 			AudioHelper::getInstance()->playResume();
+			AudioHelper::getInstance()->recordResume();
 		}
 	}
 }
@@ -94,10 +107,10 @@ void dealSongInfo()
 	switch(songInfo->weatherType)
 	{
 		case 0:
-		RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
+		RenderHelper::getInstance()->setWeather(WEATHER_RAIN);
 		break;
 		case 1:
-		RenderHelper::getInstance()->setWeather(WEATHER_RAIN);
+		RenderHelper::getInstance()->setWeather(WEATHER_SNOW);
 		break;
 		default:
 		break;
@@ -119,6 +132,24 @@ void dealSongInfo()
 		default:
 		break;
 	}
+}
+
+bool checkStart()
+{
+	if (RenderHelper::getInstance()->isStart())
+	{
+		RenderHelper::getInstance()->closeStartLayer();
+		AudioHelper::getInstance()->startPlayAssert(Global::getInstance()->getSongInfo()->songFileName);
+
+		if (Global::getInstance()->isRecord())
+		{
+			string songFileName = Global::getInstance()->getSongInfo()->songFileName;
+			AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() + 
+				songFileName.substr(0, songFileName.find_last_of(".")) + "_" + Global::getCurrentTime() + ".pcm");
+		}
+		return true;
+	}
+	return false;
 }
 
 bool VRScene::init()
@@ -160,32 +191,14 @@ void VRScene::update(float delta)
 
 	if (currentTime >= 5 && currentTime-delta < 5)
 	{
-		onAppButtonUp();
+		
 	}
 
 	if (currentTime >= 10 && currentTime-delta < 10)
 	{
-		AudioHelper::getInstance()->stopPlay();
-		AudioHelper::getInstance()->stopRecord();
+		
 	}
 }
 
-bool checkStart()
-{
-	if (RenderHelper::getInstance()->isStart())
-	{
-		RenderHelper::getInstance()->closeStartLayer();
-		AudioHelper::getInstance()->startPlayAssert(Global::getInstance()->getSongInfo()->songFileName);
-
-		if (Global::getInstance()->isRecord())
-		{
-			string songFileName = Global::getInstance()->getSongInfo()->songFileName;
-			AudioHelper::getInstance()->startRecord(FileUtils::getInstance()->getWritablePath() + 
-				songFileName.substr(0, songFileName.find_last_of(".")) + "_" + Global::getCurrentTime() + ".pcm");
-		}
-		return true;
-	}
-	return false;
-}
 
 

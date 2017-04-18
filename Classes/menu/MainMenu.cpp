@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include "utils/Global.h"
 #include "render/RenderHelper.h"
+#include "audio/AudioHelper.h"
 
 extern string mainMenuData[][2];
 extern string lyricMenuData[][2];
@@ -41,7 +42,7 @@ void MainMenu::close()
 	updateMenu(subMenuList, DISAPPEAR, subPosition);
 }
 
-void MainMenu::leftSlide()
+void MainMenu::leftMove()
 {
 	if (subPosition == -1)
 	{
@@ -62,7 +63,7 @@ void MainMenu::leftSlide()
 	}
 }
 
-void MainMenu::rightSlide()
+void MainMenu::rightMove()
 {
 	if (subPosition == -1)
 	{
@@ -110,6 +111,7 @@ void MainMenu::confirm()
 		} else if (mainPosition == 3)
 		{
 			updateMenu(mainMenuList, DISAPPEAR, mainPosition);
+			AudioHelper::getInstance()->stopPlay();
 		}
 	} else {
 		if (mainPosition == 0)				//歌词
@@ -158,7 +160,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = Spawn::create(MoveTo::create(0.5f, Vec3(100.0*(i-position), 0, -150.0)), ScaleTo::create(0.5f, 1.0f), nullptr);
+				auto action = Spawn::create(MoveTo::create(0.3f, Vec3(100.0*(i-position), 0, -150.0)), ScaleTo::create(0.5f, 1.0f), nullptr);
 				list.at(i)->runAction(action);
 			}
 			state = MENU_ON;
@@ -168,7 +170,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = Spawn::create(MoveTo::create(0.5f, Vec3(0.f, 0.f, -150.0)), ScaleTo::create(0.5f, 0.01f), nullptr);
+				auto action = Spawn::create(MoveTo::create(0.3f, Vec3(0.f, 0.f, -150.0)), ScaleTo::create(0.5f, 0.01f), nullptr);
 				list.at(i)->runAction(action);
 			}
 			state = MENU_OFF;
@@ -178,7 +180,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveTo::create(0.5f, Vec3(100.0*(i-position), 0, -150.0));
+				auto action = MoveTo::create(0.2f, Vec3(100.0*(i-position), 0, -150.0));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -187,7 +189,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveTo::create(0.5f, Vec3(100.0*(i-position), 0, -150.0));
+				auto action = MoveTo::create(0.2f, Vec3(100.0*(i-position), 0, -150.0));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -196,7 +198,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{	
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveBy::create(0.5f, Vec3(0.f, 100.f, 0.f));
+				auto action = MoveBy::create(0.2f, Vec3(0.f, 100.f, 0.f));
 				list.at(i)->runAction(action);
 			}
 			break;
@@ -205,7 +207,7 @@ void MainMenu::updateMenu(vector<VRMenuItem *> list, enum menuOperation op, int 
 		{
 			for (int i = 0; i < list.size(); ++i)
 			{
-				auto action = MoveBy::create(0.5f, Vec3(0.f, -100.f, 0.f));
+				auto action = MoveBy::create(0.2f, Vec3(0.f, -100.f, 0.f));
 				list.at(i)->runAction(action);
 			}
 			break;

@@ -29,8 +29,8 @@ public:
 	void popUp();
 	void close();
 
-	void leftSlide();
-	void rightSlide();
+	void leftMove();
+	void rightMove();
 
 	void confirm();
 

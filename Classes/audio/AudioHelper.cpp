@@ -266,7 +266,12 @@ static void *threadStartPlay(void *param)
 	delete audioHelper->audioPlayer;
 
 	LOGD("nativeStartPlayback completed !");
-	Director::getInstance()->end();
+	if (audioHelper->isRecording)
+	{
+		audioHelper->stopRecord();
+	} else {
+		Director::getInstance()->end();
+	}
 
 	return nullptr;
 }
