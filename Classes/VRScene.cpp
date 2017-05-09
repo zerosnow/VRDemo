@@ -36,31 +36,29 @@ void VRScene::onRightDown()
 void VRScene::onLeftUp()
 {
 	LOGD("onLeftUp");
-	
-}
-
-void VRScene::onRightUp()
-{
-	LOGD("onRightUp");
-	
-}
-
-void VRScene::onLeftSlide()
-{
-	LOGD("onLeftSlide");
 	if(mainMenu->getMenuState() == MENU_ON)
 	{
 		mainMenu->rightMove();
 	}
 }
 
+void VRScene::onRightUp()
+{
+	LOGD("onRightUp");
+	if(mainMenu->getMenuState() == MENU_ON)
+	{
+		mainMenu->rightMove();
+	}
+}
+
+void VRScene::onLeftSlide()
+{
+	LOGD("onLeftSlide");
+}
+
 void VRScene::onRightSlide()
 {
 	LOGD("onRightSlide");
-	if(mainMenu->getMenuState() == MENU_ON)
-	{
-		mainMenu->leftMove();
-	}
 }
 
 void VRScene::onAppButtonUp()
