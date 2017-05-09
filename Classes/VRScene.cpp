@@ -93,10 +93,6 @@ void VRScene::updateOrientation(gvr_quatf orientation)
 void VRScene::onTouchUp()
 {
 	LOGD("onTouchUp");
-	if (checkStart())
-	{
-		return ;
-	}
 	if (mainMenu->getMenuState() == MENU_OFF)
 	{
 		AudioHelper::getInstance()->playResume();
